@@ -63,11 +63,21 @@ angular.module('vtAppCtrlCategories', ['ngStorage', 'vtCategoryCarouselService',
 
             numCategoryVids += 1;
 
-            srvc_loadVid.loadCategoryVideo(currentCategory, 16, numCategoryVids).then(function (result) {
-                $scope.categoryVids = $scope.categoryVids.concat(result.data);
-            }, function (error) {
-                console.log(error)
-            })
+            if (currentCategory != 'Infographics') {
+                srvc_loadVid.loadCategoryVideo(currentCategory, 16, 1).then(function (result) {
+                    $scope.categoryVids = result.data
+                }, function (error) {
+                    console.log(error)
+                })
+            }
+            else {
+                srvc_loadVid.loadVideoByTag(currentCategory, 16, 1).then(function (result) {
+                    $scope.categoryVids = result.data
+                }, function (error) {
+                    console.log(error)
+                })
+
+            }
         }
 
         function loadInitVids() {

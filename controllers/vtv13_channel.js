@@ -1,7 +1,8 @@
-angular.module('vtAppCtrlChannel', ['ngStorage', 'vtPlayVidService', 'vtChannelCarouselService', 'vtChannelService', 'vtAppConstants'])
+angular.module('vtAppCtrlChannel', ['ngStorage', 'vtPlayVidService', 'vtChannelCarouselService', 'vtAppServiceDashboard',
+ 'vtChannelService', 'vtAppConstants'])
 
 
-    .controller("ctrl_channel", function ($scope, $http, $localStorage, srvc_channel, API) {
+    .controller("ctrl_channel", function ($scope, $http, $localStorage, srvc_dashboard, srvc_channel, API) {
 
         $scope.$watch(function () { return $localStorage.FOLLOWED_CHANNELS; }, function () {
             followedChannels = $localStorage.FOLLOWED_CHANNELS

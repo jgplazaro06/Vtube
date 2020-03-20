@@ -1,5 +1,5 @@
 angular.module('vtAppCtrlNowPlaying', ['vtPlayVidService', 'ngStorage', 'vtAppConstants', 'vtDetailsService'])
-    .controller("ctrl_nowplaying", function ($scope, $http, $localStorage, srvc_playVid, srvc_getDetails,
+    .controller("ctrl_nowplaying", function ($scope, $http, $localStorage, $sessionStorage, srvc_playVid, srvc_getDetails, srvc_loadVid,
         API, $sce) {
 
         // $scope.$watch(function () { return $localStorage.VID_ID; }, function (newVal, oldVal) {
@@ -30,6 +30,13 @@ angular.module('vtAppCtrlNowPlaying', ['vtPlayVidService', 'ngStorage', 'vtAppCo
 
         $scope.isLogged = $localStorage.IS_LOGGED;
         $scope.userComment = '';
+
+        isLogged = $localStorage.IS_LOGGED
+        var currentLang = $localStorage.CHOSEN_LANG
+        if (!currentLang) currentLang = 'en'
+
+        var aud = $sessionStorage.AUD
+        var authToken = $sessionStorage.USER_TOKEN
 
         $scope.playVid = srvc_playVid.playVid;
         $scope.addToPlaylist = srvc_playVid.addToPlaylist;
@@ -66,25 +73,29 @@ angular.module('vtAppCtrlNowPlaying', ['vtPlayVidService', 'ngStorage', 'vtAppCo
 
 
         function loadComments() {
-            var encodedString = 'action=' + encodeURIComponent('Comment_GetComment') + "&name="
-                + encodeURIComponent(VID_ID);
-            $http({
-                method: 'POST',
-                url: API.URL,
-                data: encodedString,
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-            }).then(function (result) {
-                commentList = result.data;
-                commentList.forEach(element => {
-                    element.imageUser = 'http://site.the-v.net/Widgets_Site/avatar.ashx?id=' + element.UserId;
-                });
-                $scope.commentList = result.data;
+            requestString = [API.THEV, 'Video/comment/list', VID_ID, aud].filter(Boolean).join('/')
+            console.log(requestString)
+            if (authToken) {
+                $http.get(requestString, {
+                    headers: { 'Authorization': 'Bearer ' + authToken }
+                }).then(function (result) {
+                    commentList = result.data;
+                    commentList.forEach(element => {
+                        element.imageUser = 'http://site.the-v.net/Widgets_Site/avatar.ashx?id=' + element.UserId;
+                    });
+                    $scope.commentList = result.data;
 
 
 
-            }, function (error) {
-                console.log(error)
-            })
+                }, function (error) {
+                    console.log(error)
+                })
+            }
+            else {
+                return $http.get(requestString, {
+                })
+            }
+
         }
 
 
@@ -140,16 +151,7 @@ angular.module('vtAppCtrlNowPlaying', ['vtPlayVidService', 'ngStorage', 'vtAppCo
         function getRelated() {
             relatedPage += 1;
 
-            var encodedString = 'action=' + encodeURIComponent('Video_GetRelated') + "&count="
-                + encodeURIComponent(3) + "&id ="
-                + encodeURIComponent(VID_ID) + "&page="
-                + encodeURIComponent(1);
-            $http({
-                method: 'POST',
-                url: API.URL,
-                data: encodedString,
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-            }).then(function (result) {
+            srvc_loadVid.loadRelatedVideos(VID_ID, 8, 1).then(function (result) {
                 console.log(result)
                 $scope.relatedVideos = result.data;
 
@@ -162,6 +164,7 @@ angular.module('vtAppCtrlNowPlaying', ['vtPlayVidService', 'ngStorage', 'vtAppCo
 
         function getDetails() {
             srvc_getDetails.getDetails('Video', VID_ID).then(function (result) {
+                console.log(result)
                 $scope.currentVideo = result.data[0];
                 $scope.safeUrl = $sce.trustAsResourceUrl(`http://players.brightcove.net/3745659807001/4JJdlFXsg_default/index.html?videoId=${VID_ID}`)
             }, function (error) {
@@ -175,6 +178,7 @@ angular.module('vtAppCtrlNowPlaying', ['vtPlayVidService', 'ngStorage', 'vtAppCo
 
 
         loadComments()
+
         getRelated();
         getDetails();
     })

@@ -1,7 +1,8 @@
 var app = angular.module('vtPlayVidService', ['vtAppConstants'])
 
-app.factory('srvc_playVid', function ($localStorage, $http, API) {
+app.factory('srvc_playVid', function ($localStorage, $sessionStorage, $http, API) {
 
+    var $ = jQuery;
 
     return {
 
@@ -82,21 +83,16 @@ app.factory('srvc_playVid', function ($localStorage, $http, API) {
 
             if (exist) {
                 $localStorage.ID_TO_DELETE = id;
-                modalAddedPlaylist.modal('show')
+                $('mdlVtbAddedtoPlaylist').modal('show')
             }
             else {
-                var encodedString = 'action=' + encodeURIComponent('DDrupal_Video_AddToPlaylist') + "&id="
-                    + encodeURIComponent(id) + "&userid="
-                    + encodeURIComponent(userId);
+                requestString = [API.THEV, 'dashboard/playlist/add', id, $sessionStorage.AUD].filter(Boolean).join('/')
 
-                $http({
-                    method: 'POST',
-                    url: API.URL,
-                    data: encodedString,
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                $http.get(requestString, {
+                    headers: { 'Authorization': 'Bearer ' + $sessionStorage.USER_TOKEN }
                 }).then(function (result) {
                     if (result.data[0].Data == 'True')
-                        modalPlaylist.modal('show')
+                        $('mdlVtbAddtoPlaylist').modal('show')
                     loadUserPlaylist();
                 }, function (error) {
                     console.log(error)
@@ -107,20 +103,13 @@ app.factory('srvc_playVid', function ($localStorage, $http, API) {
         },
 
         'removeFromPlaylist': function (id) {
-            userId = $localStorage.USER_DATA.id;
+            requestString = [API.THEV, 'dashboard/playlist/remove', id, $sessionStorage.AUD].filter(Boolean).join('/')
 
-            var encodedString = 'action=' + encodeURIComponent('DDrupal_Video_RemovePlaylist') + "&id="
-                + encodeURIComponent(id) + "&userid="
-                + encodeURIComponent(userId);
-
-            return $http({
-                method: 'POST',
-                url: API.URL,
-                data: encodedString,
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            $http.get(requestString, {
+                headers: { 'Authorization': 'Bearer ' + $sessionStorage.USER_TOKEN }
             }).then(function (result) {
                 console.log(result)
-                if (result.data[0].Data == 'True') modalRemovePlaylist.modal('show')
+                if (result.data[0].Data == 'True') $('mdlRemovePlaylist').modal('show')
                 loadUserPlaylist();
             }, function (error) {
                 console.log(error)
@@ -138,22 +127,16 @@ app.factory('srvc_playVid', function ($localStorage, $http, API) {
     }
 
     function loadUserPlaylist() {
-        userId = $localStorage.USER_DATA.id;
+        requestString = [API.THEV, 'dashboard/playlist/list', $sessionStorage.AUD].filter(Boolean).join('/')
 
-        var encodedString = 'action=' + encodeURIComponent('DDrupal_UserVideoPlaylist') + "&id="
-            + encodeURIComponent(userId);
-        $http({
-            method: 'POST',
-            url: API.URL,
-            data: encodedString,
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        $http.get(requestString, {
+            headers: { 'Authorization': 'Bearer ' + $sessionStorage.USER_TOKEN }
         }).then(function (result) {
-            console.log(result.data)
-            $localStorage.PLAYLIST = result.data;
-            if ($localStorage.PLAYLIST == undefined)
-                $localStorage.PLAYLIST = [];
-
-
+            $localStorage.FOLLOWED_CHANNELS = result.data;
+            $localStorage.FOLLOWED_CHANNELS.forEach(element => {
+                element.image = 'http://site.the-v.net' + element.image
+                element.image = element.image.replace('&amp;', '&')
+            })
         }, function (error) {
             console.log(error)
         })

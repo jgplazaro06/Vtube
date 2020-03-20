@@ -29,26 +29,14 @@ angular.module('vtAppCtrlPremium', ['ngStorage', 'vtPlayVidService', 'vtAppConst
             console.log(error)
         })
 
-
-
         function getRelated(index) {
 
             // recentlyAdded.find('.owl-stage-outer').children().unwrap();
             VID_ID = $scope.premiumVids[index].id;
-            var encodedString = 'action=' + encodeURIComponent('Video_GetRelated') + "&count="
-                + encodeURIComponent(3) + "&id ="
-                + encodeURIComponent(VID_ID) + "&page="
-                + encodeURIComponent(1);
-            $http({
-                method: 'POST',
-                url: API.URL,
-                data: encodedString,
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-            }).then(function (result) {
-                $scope.relatedVids = [];
-                $scope.relatedVids = result.data;
-                // recentlyAdded.trigger('replace.owl.carousel', result.data).trigger('refresh.owl.carousel')
-                // srvc_premium.initRelated();
+            srvc_loadVid.loadRelatedVideos(VID_ID, 8, 1).then(function (result) {
+                console.log(result)
+                $scope.relatedVideos = result.data;
+
             }, function (error) {
                 console.log(error)
             })
@@ -83,7 +71,7 @@ angular.module('vtAppCtrlPremium', ['ngStorage', 'vtPlayVidService', 'vtAppConst
         };
     })
 
-    
+
     .directive("ngCheckImage", function ($http) {
         return {
             restrict: "A",

@@ -1,28 +1,19 @@
 var app = angular.module('vtLoadVideosService', ['vtAppConstants'])
 
 app.factory('srvc_loadVid', function ($localStorage, $sessionStorage, $http, API) {
-    isLogged = $localStorage.IS_LOGGED
-    var currentLang = $localStorage.CHOSEN_LANG
-    if (!currentLang) currentLang = 'en'
-
-    var aud = $sessionStorage.AUD
-    var authToken = $sessionStorage.USER_TOKEN
-
-    //category/{category}/{language}/{page}/{count}
-
-    // view/{language}/{page}/{count}
-
-    // related/{vidid}/{language}/{page}/{count}
-
+    var $ = jQuery;
     return {
         'loadVideo': function (videoType, count, page) {
             toBeLoaded = checkVideoType(videoType)
 
-            requestString = [API.THEV, 'Video', toBeLoaded, currentLang, page, count, aud].filter(Boolean).join('/')
+            var currentLang = $localStorage.CHOSEN_LANG
+            if (!currentLang) currentLang = 'en'
+
+            requestString = [API.THEV, 'Video', toBeLoaded, currentLang, page, count, $sessionStorage.AUD].filter(Boolean).join('/')
             console.log(requestString)
-            if (authToken) {
+            if ($sessionStorage.USER_TOKEN) {
                 return $http.get(requestString, {
-                    headers: { 'Authorization': 'Bearer ' + authToken }
+                    headers: { 'Authorization': 'Bearer ' + $sessionStorage.USER_TOKEN }
                 })
             }
             else {
@@ -33,11 +24,14 @@ app.factory('srvc_loadVid', function ($localStorage, $sessionStorage, $http, API
         },
 
         'loadRelatedVideos': function (id, count, page) {
-            requestString = [API.THEV, 'Video/related', id, currentLang, page, count, aud].filter(Boolean).join('/')
+            var currentLang = $localStorage.CHOSEN_LANG
+            if (!currentLang) currentLang = 'en'
 
-            if (authToken) {
+            requestString = [API.THEV, 'Video/related', id, currentLang, page, count, $sessionStorage.AUD].filter(Boolean).join('/')
+
+            if ($sessionStorage.USER_TOKEN) {
                 return $http.get(requestString, {
-                    headers: { 'Authorization': 'Bearer ' + authToken }
+                    headers: { 'Authorization': 'Bearer ' + $sessionStorage.USER_TOKEN }
                 })
             }
             else {
@@ -48,12 +42,14 @@ app.factory('srvc_loadVid', function ($localStorage, $sessionStorage, $http, API
 
         'loadCategoryVideo': function (category, count, page) {
 
+            var currentLang = $localStorage.CHOSEN_LANG
+            if (!currentLang) currentLang = 'en'
 
-            requestString = [API.THEV, 'Video/category', category, currentLang, page, count, aud].filter(Boolean).join('/')
+            requestString = [API.THEV, 'Video/category', category, currentLang, page, count, $sessionStorage.AUD].filter(Boolean).join('/')
 
-            if (authToken) {
+            if ($sessionStorage.USER_TOKEN) {
                 return $http.get(requestString, {
-                    headers: { 'Authorization': 'Bearer ' + authToken }
+                    headers: { 'Authorization': 'Bearer ' + $sessionStorage.USER_TOKEN }
                 })
             }
             else {
@@ -62,13 +58,16 @@ app.factory('srvc_loadVid', function ($localStorage, $sessionStorage, $http, API
             }
         },
 
-        'loadVideoByTag': function (tag, page, count) {
+        'loadVideoByTag': function (tag, count, page) {
 
-            requestString = [API.THEV, 'Video/tag', tag, currentLang, page, count, aud].filter(Boolean).join('/')
+            var currentLang = $localStorage.CHOSEN_LANG
+            if (!currentLang) currentLang = 'en'
 
-            if (authToken) {
+            requestString = [API.THEV, 'Video/tag', tag, currentLang, page, count, $sessionStorage.AUD].filter(Boolean).join('/')
+
+            if ($sessionStorage.USER_TOKEN) {
                 return $http.get(requestString, {
-                    headers: { 'Authorization': 'Bearer ' + authToken }
+                    headers: { 'Authorization': 'Bearer ' + $sessionStorage.USER_TOKEN }
                 })
             }
             else {

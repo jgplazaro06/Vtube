@@ -1,13 +1,8 @@
 var app = angular.module('vtChannelService', ['vtAppConstants'])
 
 app.factory('srvc_channel', function ($localStorage, $sessionStorage, $http, API) {
-    isLogged = $localStorage.IS_LOGGED
-    var currentLang = $localStorage.CHOSEN_LANG
-    if (!currentLang) currentLang = 'en'
 
-    var aud = $sessionStorage.AUD
-    var authToken = $sessionStorage.USER_TOKEN
-
+    var $ = jQuery;
 
     return {
         'getDetailsOf': function (id) {
@@ -20,10 +15,10 @@ app.factory('srvc_channel', function ($localStorage, $sessionStorage, $http, API
 
         'getChannelVideos': function (count, channelName, page) {
 
-            requestString = [API.THEV, 'Channel/video/list', channelName, page, count, aud].filter(Boolean).join('/')
-            if (authToken) {
+            requestString = [API.THEV, 'Channel/video/list', channelName, page, count, $sessionStorage.AUD].filter(Boolean).join('/')
+            if ($sessionStorage.USER_TOKEN) {
                 return $http.get(requestString, {
-                    headers: { 'Authorization': 'Bearer ' + authToken }
+                    headers: { 'Authorization': 'Bearer ' + $sessionStorage.USER_TOKEN }
                 })
             }
             else {
@@ -82,7 +77,7 @@ app.factory('srvc_channel', function ($localStorage, $sessionStorage, $http, API
         'addComments': function (title, comment) {
             userId = $localStorage.USER_DATA.id;
 
-            requestString = [API.THEV, 'Channel/comment', title, aud].filter(Boolean).join('/')
+            requestString = [API.THEV, 'Channel/comment', title, $sessionStorage.AUD].filter(Boolean).join('/')
             console.log(requestString)
 
             return $http.get(requestString, {
@@ -91,10 +86,10 @@ app.factory('srvc_channel', function ($localStorage, $sessionStorage, $http, API
         },
 
         'loadComments': function (id) {
-            requestString = [API.THEV, 'Channel/comment/list', id, aud].filter(Boolean).join('/')
-            if (authToken) {
+            requestString = [API.THEV, 'Channel/comment/list', id, $sessionStorage.AUD].filter(Boolean).join('/')
+            if ($sessionStorage.USER_TOKEN) {
                 return $http.get(requestString, {
-                    headers: { 'Authorization': 'Bearer ' + authToken }
+                    headers: { 'Authorization': 'Bearer ' + $sessionStorage.USER_TOKEN }
                 })
             }
             else {
@@ -115,24 +110,18 @@ app.factory('srvc_channel', function ($localStorage, $sessionStorage, $http, API
 
 
 
-        'getFollowing': function () {
+        'getFollowing': function () { 
             getFollowing()
         }
 
     }
 
     function getFollowing() {
-        userId = $localStorage.USER_DATA.id;
+        requestString = [API.THEV, 'dashboard/playlist/list', $sessionStorage.AUD].filter(Boolean).join('/')
 
-        var encodedString = 'action=' + encodeURIComponent('DDrupal_UserFollowing') + "&id="
-            + encodeURIComponent(userId);
-        $http({
-            method: 'POST',
-            url: API.URL,
-            data: encodedString,
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        $http.get(requestString, {
+            headers: { 'Authorization': 'Bearer ' + $sessionStorage.USER_TOKEN }
         }).then(function (result) {
-            console.log(result)
             $localStorage.FOLLOWED_CHANNELS = result.data;
             $localStorage.FOLLOWED_CHANNELS.forEach(element => {
                 element.image = 'http://site.the-v.net' + element.image

@@ -1,13 +1,153 @@
 angular.module('vtAppServiceDashboard', ['vtAppConstants'])
 
-    .factory("srvc_dashboard", function ($localStorage, $http, API) {
+    .factory("srvc_dashboard", function ($localStorage, $sessionStorage, $http, API) {
 
-        // var modalPlaylist;
-        // var modalAddedPlaylist;
-        // var loginRequiredModal;
+        isLogged = $localStorage.IS_LOGGED
+        var $ = jQuery;
+        
         var channelExist = false;
         var inboxItem = [];
         return {
+
+            //functionalities
+            'playlistFunctions': function (action, videoId) {
+                requestString = [API.THEV, 'dashboard/playlist', action, videoId, $sessionStorage.AUD].filter(Boolean).join('/')
+                return $http.get(requestString, {
+                    headers: { 'Authorization': 'Bearer ' + $sessionStorage.USER_TOKEN }
+                })
+            },
+
+            'createChannel': function (channel) {
+                console.log(channel)
+
+                userId = $localStorage.USER_DATA.id;
+
+                var encodedString = 'action=' + encodeURIComponent('DDrupal_Channel_Create') + "&name="
+                    + encodeURIComponent(channel.name) + "&accesstype="
+                    + encodeURIComponent(channel.accesstype) + "&description="
+                    + encodeURIComponent(channel.description) + "&iscomment="
+                    + encodeURIComponent(channel.cancomment) + "&israte="
+                    + encodeURIComponent(channel.canrate) + "&userid="
+                    + encodeURIComponent(userId);
+                return $http({
+                    method: 'POST',
+                    url: API.URL,
+                    data: encodedString,
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                })
+
+            },
+            'deleteChannel': function (id) {
+
+                userId = $localStorage.USER_DATA.id;
+
+                var encodedString = 'action=' + encodeURIComponent('DDrupal_channel_remove') + "&id="
+                    + encodeURIComponent(id) + "&userid="
+                    + encodeURIComponent(userId);
+                return $http({
+                    method: 'POST',
+                    url: API.URL,
+                    data: encodedString,
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                })
+
+            },
+            'editChannel': function (id, channel) {
+                userId = $localStorage.USER_DATA.id;
+
+                var encodedString = 'action=' + encodeURIComponent('DDrupal_Channel_Update') + "&channelid="
+                    + encodeURIComponent(id) + "&title="
+                    + encodeURIComponent(channel.name) + "&descript="
+                    + encodeURIComponent(channel.description) + "&Comment="
+                    + encodeURIComponent(channel.cancomment) + "&publish="
+                    + encodeURIComponent(channel.accesstype) + "&userid="
+                    + encodeURIComponent(userId);
+                return $http({
+                    method: 'POST',
+                    url: API.URL,
+                    data: encodedString,
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                })
+
+
+            },
+            'createVideo': function (video) {
+
+                userId = $localStorage.USER_DATA.id;
+                var encodedString = 'action=' + encodeURIComponent('DDrupal_Video_Create') + "&name="
+                    + encodeURIComponent(video.name) + "&desc="
+                    + encodeURIComponent(video.desc) + "&tags="
+                    + encodeURIComponent(video.tags) + "&category="
+                    + encodeURIComponent(video.category) + "&level="
+                    + encodeURIComponent(video.level) + "&targetmarket="
+                    + encodeURIComponent(video.targetmarket) + "&comment="
+                    + encodeURIComponent(video.comment) + "&share="
+                    + encodeURIComponent(video.share) + "&publish="
+                    + encodeURIComponent(video.publish) + "&guid="
+                    + encodeURIComponent(video.guid) + "&userid="
+                    + encodeURIComponent(userId);
+
+                return $http({
+                    method: 'POST',
+                    url: API.URL,
+                    data: encodedString,
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                })
+
+
+            },
+            'editVideo': function (video) {
+
+                userId = $localStorage.USER_DATA.id;
+                var encodedString = 'action=' + encodeURIComponent('DDrupal_Video_Update') + "&vidid="
+                    + encodeURIComponent(video.guid) + "&name="
+                    + encodeURIComponent(video.name) + "&descrip="
+                    + encodeURIComponent(video.desc) + "&tags="
+                    + encodeURIComponent(video.tags) + "&category="
+                    + encodeURIComponent(video.category) + "&level="
+                    + encodeURIComponent(video.level) + "&targetmarket="
+                    + encodeURIComponent(video.targetmarket) + "&comment="
+                    + encodeURIComponent(video.comment) + "&share="
+                    + encodeURIComponent(video.share) + "&publish="
+                    + encodeURIComponent(video.publish) + "&userid="
+                    + encodeURIComponent(userId);
+
+                return $http({
+                    method: 'POST',
+                    url: API.URL,
+                    data: encodedString,
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                })
+
+            },
+            'deleteVideo': function (videoId, e) {
+                //DDrupal_myvideo_del
+                e.preventDefault();
+
+                userId = $localStorage.USER_DATA.id;
+                var encodedString = 'action=' + encodeURIComponent('DDrupal_myvideo_del') + "&id="
+                    + encodeURIComponent(videoId) + "&userid= "
+                    + encodeURIComponent(userId)
+
+                return $http({
+                    method: 'POST',
+                    url: API.URL,
+                    data: encodedString,
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                }).then(function (result) {
+                    console.log(result)
+                }, function (error) {
+                    console.log(error)
+                })
+
+
+            },
+            'uploadVideo': function () {
+
+            },
+
+
+            //visuals
             'init': function () {
                 $('#linkVtbProfile').click(function () {
                     getDashboardProfile();
@@ -75,142 +215,7 @@ angular.module('vtAppServiceDashboard', ['vtAppConstants'])
             'showChangePassword': function () {
                 getDashboardChangePassword();
             },
-            'createChannel': function (channel) {
-                console.log(channel)
 
-                userId = $localStorage.USER_DATA.id;
-
-                var encodedString = 'action=' + encodeURIComponent('DDrupal_Channel_Create') + "&name="
-                    + encodeURIComponent(channel.name) + "&accesstype="
-                    + encodeURIComponent(channel.accesstype) + "&description="
-                    + encodeURIComponent(channel.description) + "&iscomment="
-                    + encodeURIComponent(channel.cancomment) + "&israte="
-                    + encodeURIComponent(channel.canrate) + "&userid="
-                    + encodeURIComponent(userId);
-                return $http({
-                    method: 'POST',
-                    url: API.URL,
-                    data: encodedString,
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-                })
-
-            },
-            'deleteChannel': function (id) {
-
-                userId = $localStorage.USER_DATA.id;
-
-                var encodedString = 'action=' + encodeURIComponent('DDrupal_channel_remove') + "&id="
-                    + encodeURIComponent(id) + "&userid="
-                    + encodeURIComponent(userId);
-                return $http({
-                    method: 'POST',
-                    url: API.URL,
-                    data: encodedString,
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-                })
-
-            },
-            'editChannel': function (id, channel) {
-                userId = $localStorage.USER_DATA.id;
-
-                var encodedString = 'action=' + encodeURIComponent('DDrupal_Channel_Update') + "&channelid="
-                    + encodeURIComponent(id) + "&title="
-                    + encodeURIComponent(channel.name) + "&descript="
-                    + encodeURIComponent(channel.description) + "&Comment="
-                    + encodeURIComponent(channel.cancomment) + "&publish="
-                    + encodeURIComponent(channel.accesstype) + "&userid="
-                    + encodeURIComponent(userId);
-                return $http({
-                    method: 'POST',
-                    url: API.URL,
-                    data: encodedString,
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-                })
-
-
-            },
-            'createVideo': function (video) {
-                // string name, string desc, string tags,  string comment, string share, string publish, 
-                // string guid, string userid
-
-                //missing
-                //string category, 
-                // string level, string targetmarket,
-
-                userId = $localStorage.USER_DATA.id;
-                var encodedString = 'action=' + encodeURIComponent('DDrupal_Video_Create') + "&name="
-                    + encodeURIComponent(video.name) + "&desc="
-                    + encodeURIComponent(video.desc) + "&tags="
-                    + encodeURIComponent(video.tags) + "&category="
-                    + encodeURIComponent(video.category) + "&level="
-                    + encodeURIComponent(video.level) + "&targetmarket="
-                    + encodeURIComponent(video.targetmarket) + "&comment="
-                    + encodeURIComponent(video.comment) + "&share="
-                    + encodeURIComponent(video.share) + "&publish="
-                    + encodeURIComponent(video.publish) + "&guid="
-                    + encodeURIComponent(video.guid) + "&userid="
-                    + encodeURIComponent(userId);
-
-                return $http({
-                    method: 'POST',
-                    url: API.URL,
-                    data: encodedString,
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-                })
-
-
-            },
-            'editVideo': function (video) {
-                // string vidid, string name, string descrip, string tags, string category, 
-                // string level, string targetmarket, string comment, string share, string publish, string userid
-
-                userId = $localStorage.USER_DATA.id;
-                var encodedString = 'action=' + encodeURIComponent('DDrupal_Video_Update') + "&vidid="
-                    + encodeURIComponent(video.guid) + "&name="
-                    + encodeURIComponent(video.name) + "&descrip="
-                    + encodeURIComponent(video.desc) + "&tags="
-                    + encodeURIComponent(video.tags) + "&category="
-                    + encodeURIComponent(video.category) + "&level="
-                    + encodeURIComponent(video.level) + "&targetmarket="
-                    + encodeURIComponent(video.targetmarket) + "&comment="
-                    + encodeURIComponent(video.comment) + "&share="
-                    + encodeURIComponent(video.share) + "&publish="
-                    + encodeURIComponent(video.publish) + "&userid="
-                    + encodeURIComponent(userId);
-
-                return $http({
-                    method: 'POST',
-                    url: API.URL,
-                    data: encodedString,
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-                })
-
-            },
-            'deleteVideo': function (videoId, e) {
-                //DDrupal_myvideo_del
-                e.preventDefault();
-
-                userId = $localStorage.USER_DATA.id;
-                var encodedString = 'action=' + encodeURIComponent('DDrupal_myvideo_del') + "&id="
-                    + encodeURIComponent(videoId) + "&userid= "
-                    + encodeURIComponent(userId)
-
-                return $http({
-                    method: 'POST',
-                    url: API.URL,
-                    data: encodedString,
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-                }).then(function (result) {
-                    console.log(result)
-                }, function (error) {
-                    console.log(error)
-                })
-
-
-            },
-            'uploadVideo': function () {
-
-            },
 
             'showCreateChannel': function () {
                 getCreateChannel()

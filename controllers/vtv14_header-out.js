@@ -1,6 +1,6 @@
-angular.module('vtAppCtrlHeaderOut', ['ngStorage', 'vtAppConstants'])
+angular.module('vtAppCtrlHeaderOut', ['ngStorage', 'vtAppConstants', 'vtAppCtrlChannel'])
 
-    .controller("ctrl_HeaderMenu", function ($scope, $rootScope, $localStorage, $sessionStorage, API, $http) {
+    .controller("ctrl_HeaderMenu", function ($scope, $rootScope, $localStorage, $sessionStorage, API, $http, srvc_channel) {
 
         $scope.$watch(function () { return $localStorage.IS_LOGGED; }, function (newVal, oldVal) {
             $scope.isLogged = newVal;
@@ -75,12 +75,13 @@ angular.module('vtAppCtrlHeaderOut', ['ngStorage', 'vtAppConstants'])
             $http.get(requestString, {
                 headers: { 'Authorization': 'Bearer ' + authToken }
             }).then(function (result) {
-                console.log(result.data[0])
-                console.log(result.data)
                 $localStorage.USER_DATA = result.data[0]
+
             }, function (error) {
                 console.log(error)
             })
+
+            srvc_channel.getFollowing();
         }
 
 
