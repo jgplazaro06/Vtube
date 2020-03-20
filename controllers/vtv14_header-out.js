@@ -1,6 +1,6 @@
-angular.module('vtAppCtrlHeaderOut', ['ngStorage'])
+angular.module('vtAppCtrlHeaderOut', ['ngStorage', 'vtAppConstants'])
 
-    .controller("ctrl_HeaderMenu", function ($scope, $rootScope, $localStorage, $sessionStorage) {
+    .controller("ctrl_HeaderMenu", function ($scope, $rootScope, $localStorage, $sessionStorage, API, $http) {
 
         $scope.$watch(function () { return $localStorage.IS_LOGGED; }, function (newVal, oldVal) {
             $scope.isLogged = newVal;
@@ -17,10 +17,12 @@ angular.module('vtAppCtrlHeaderOut', ['ngStorage'])
 
         if ($rootScope.aud == undefined && $rootScope.token == undefined) {
             var paramToken = new URLSearchParams(window.location.search)
-            if(paramToken.has('token') && paramToken.has('aud')){
+            if (paramToken.has('token') && paramToken.has('aud')) {
                 $sessionStorage.USER_TOKEN = paramToken.get('token')
                 $sessionStorage.AUD = paramToken.get('aud')
-                $localStorage.IS_LOGGED = true;
+                getUserDetails()
+                window.location.href = '/home';
+                //  $localStorage.IS_LOGGED = true;
             }
         }
 
@@ -50,7 +52,6 @@ angular.module('vtAppCtrlHeaderOut', ['ngStorage'])
         }
 
         $scope.changeLanguage = function (lang, displayLang) {
-            console.log(lang)
             $rootScope.displayLang = displayLang;
             chosenLang = lang;
             $localStorage.CHOSEN_LANG = lang;
@@ -65,67 +66,22 @@ angular.module('vtAppCtrlHeaderOut', ['ngStorage'])
             }
         }
 
-        // $scope.search = function (e) {
-        //     e.preventDefault();
-        //     $localStorage.KEYWORD = $scope.searchWord.keyword;
+        function getUserDetails() {
+            var aud = $sessionStorage.AUD
+            var authToken = $sessionStorage.USER_TOKEN
 
-        //     // window.location.href = '/search?keyword=' + $scope.searchKeyword;
-        //     if ($scope.searchWord.keyword == "" ||
-        //         $scope.searchWord.keyword == undefined)
-        //         window.alert("Search Empty")
-        //     else
-        //         window.location.href = '/search?keyword=' + $scope.searchWord.keyword;
-        // }
-
-        // $scope.goToVids = function () {
-        //     $state.go('^.videos')
-
-        //     console.log("hello")
-        // }
-
-
-        // $scope.goToCats = function () {
-        //     $state.go('^.categories')
-
-        //     console.log("hello")
-        // }
+            requestString = [API.THEV, 'User/data', aud].filter(Boolean).join('/')
+            console.log(requestString)
+            $http.get(requestString, {
+                headers: { 'Authorization': 'Bearer ' + authToken }
+            }).then(function (result) {
+                console.log(result.data[0])
+                console.log(result.data)
+                $localStorage.USER_DATA = result.data[0]
+            }, function (error) {
+                console.log(error)
+            })
+        }
 
 
-        // $scope.goToHome = function () {
-        //     $state.go('^.defaultHome')
-
-        //     console.log("hello")
-        // }
-
-
-        // $scope.goToChannel = function () {
-        //     $state.go('^.channels')
-
-        //     console.log("hello")
-        // }
     })
-    // .run(function ($rootScope, $location, $localStorage) {
-
-    //     $rootScope.$on('$locationChangeStart', function (event, newUrl, oldUrl, newState, oldState) {
-    //         console.log(newUrl)
-    //         console.log(oldUrl)
-    //         console.log($rootScope.hasChanged)
-
-    //         //newUrl != oldUrl
-    //         if ($rootScope.hasChanged != newUrl) {
-    //             var chosenLang = $localStorage.CHOSEN_LANG
-    //             if (!chosenLang) chosenLang = ''
-    //             var changeUrl = new URL(newUrl)
-    //             var checkLang = changeUrl.pathname.substring(0, 4)
-
-    //             if ((checkLang.match(/\//g) || []).length == 2) {
-    //                 event.preventDefault();
-    //                 if (chosenLang == '') window.location.pathname = changeUrl.pathname.replace(checkLang, '/')
-    //                 else window.location.pathname = changeUrl.pathname.replace(checkLang, '/' + chosenLang + '/')
-
-    //             }
-    //         }
-
-    //     })
-
-    // });
