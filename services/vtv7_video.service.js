@@ -2,8 +2,6 @@ var app = angular.module('vtPlayVidService', ['vtAppConstants'])
 
 app.factory('srvc_playVid', function ($localStorage, $sessionStorage, $http, API) {
 
-    var $ = jQuery;
-
     return {
 
         'playVid': function (id, privacy, e) {
@@ -83,16 +81,24 @@ app.factory('srvc_playVid', function ($localStorage, $sessionStorage, $http, API
 
             if (exist) {
                 $localStorage.ID_TO_DELETE = id;
-                $('mdlVtbAddedtoPlaylist').modal('show')
+                jQuery('#mdlVtbAddedtoPlaylist').modal('show')
             }
             else {
+
+                // requestString = [API.THEV, 'dashboard/playlist/list', $sessionStorage.AUD].filter(Boolean).join('/')
+
+                // $http.get(requestString, {
+                //     headers: { 'Authorization': 'Bearer ' + $sessionStorage.USER_TOKEN }
+
+
                 requestString = [API.THEV, 'dashboard/playlist/add', id, $sessionStorage.AUD].filter(Boolean).join('/')
 
-                $http.get(requestString, {
+                $http.post(requestString, '', {
                     headers: { 'Authorization': 'Bearer ' + $sessionStorage.USER_TOKEN }
                 }).then(function (result) {
-                    if (result.data[0].Data == 'True')
-                        $('mdlVtbAddtoPlaylist').modal('show')
+                    console.log(result)
+                    if (result.status == 200)
+                        jQuery('#mdlVtbAddtoPlaylist').modal('show')
                     loadUserPlaylist();
                 }, function (error) {
                     console.log(error)
@@ -105,11 +111,11 @@ app.factory('srvc_playVid', function ($localStorage, $sessionStorage, $http, API
         'removeFromPlaylist': function (id) {
             requestString = [API.THEV, 'dashboard/playlist/remove', id, $sessionStorage.AUD].filter(Boolean).join('/')
 
-            $http.get(requestString, {
+            $http.post(requestString, '',{
                 headers: { 'Authorization': 'Bearer ' + $sessionStorage.USER_TOKEN }
             }).then(function (result) {
                 console.log(result)
-                if (result.data[0].Data == 'True') $('mdlRemovePlaylist').modal('show')
+                if (result.status == 200) jQuery('#mdlRemovePlaylist').modal('show')
                 loadUserPlaylist();
             }, function (error) {
                 console.log(error)
@@ -132,8 +138,8 @@ app.factory('srvc_playVid', function ($localStorage, $sessionStorage, $http, API
         $http.get(requestString, {
             headers: { 'Authorization': 'Bearer ' + $sessionStorage.USER_TOKEN }
         }).then(function (result) {
-            $localStorage.FOLLOWED_CHANNELS = result.data;
-            $localStorage.FOLLOWED_CHANNELS.forEach(element => {
+            $localStorage.PLAYLIST = result.data;
+            $localStorage.PLAYLIST.forEach(element => {
                 element.image = 'http://site.the-v.net' + element.image
                 element.image = element.image.replace('&amp;', '&')
             })

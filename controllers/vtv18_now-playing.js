@@ -72,6 +72,10 @@ angular.module('vtAppCtrlNowPlaying', ['vtPlayVidService', 'ngStorage', 'vtAppCo
         }
 
 
+        $scope.goBack = function () {
+            window.history.back();
+        }
+
         function loadComments() {
             requestString = [API.THEV, 'Video/comment/list', VID_ID, aud].filter(Boolean).join('/')
             console.log(requestString)
@@ -103,25 +107,46 @@ angular.module('vtAppCtrlNowPlaying', ['vtPlayVidService', 'ngStorage', 'vtAppCo
 
             e.preventDefault();
 
-            if (isVideoLiked()) {
-                $('#mdlAlreadyLiked').modal('show')
-            }
-            else {
-                var encodedString = 'action=' + encodeURIComponent('Video_AddLikes') + "&id="
-                    + encodeURIComponent(VID_ID);
-                $http({
-                    method: 'POST',
-                    url: API.URL,
-                    data: encodedString,
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-                }).then(function (result) {
-                    $localStorage.LIKED_VIDEOS = $localStorage.LIKED_VIDEOS.concat(VID_ID)
-                    $('#mdlVideoLiked').modal('show')
+            requestString = [API.THEV, 'Video/category', category, currentLang, page, count, $sessionStorage.AUD].filter(Boolean).join('/')
 
+            if ($sessionStorage.USER_TOKEN) {
+                $http.get(requestString, {
+                    headers: { 'Authorization': 'Bearer ' + $sessionStorage.USER_TOKEN }
+                }).then(function (result) {
+                    jQuery('#mdlVideoLiked').modal('show')
                 }, function (error) {
                     console.log(error)
                 })
             }
+            else {
+                $http.get(requestString, {
+                }).then(function (result) {
+                    jQuery('#mdlVideoLiked').modal('show')
+                }, function (error) {
+                    console.log(error)
+                })
+            }
+
+
+            // if (isVideoLiked()) {
+            //     $('#mdlAlreadyLiked').modal('show')
+            // }
+            // else {
+            //     var encodedString = 'action=' + encodeURIComponent('Video_AddLikes') + "&id="
+            //         + encodeURIComponent(VID_ID);
+            //     $http({
+            //         method: 'POST',
+            //         url: API.URL,
+            //         data: encodedString,
+            //         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            //     }).then(function (result) {
+            //         $localStorage.LIKED_VIDEOS = $localStorage.LIKED_VIDEOS.concat(VID_ID)
+            //         $('#mdlVideoLiked').modal('show')
+
+            //     }, function (error) {
+            //         console.log(error)
+            //     })
+            // }
 
 
         }

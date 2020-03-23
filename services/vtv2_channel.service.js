@@ -29,21 +29,11 @@ app.factory('srvc_channel', function ($localStorage, $sessionStorage, $http, API
         },
 
         'follow': function (id, e) {
-            e.preventDefault();
-            userId = $localStorage.USER_DATA.id;
-
-            console.log(id)
-            var encodedString = 'action=' + encodeURIComponent('DDrupal_Channel_FollowChannel') + "&id="
-                + encodeURIComponent(id) + "&userid="
-                + encodeURIComponent(userId);
-
-            return $http({
-                method: 'POST',
-                url: API.URL,
-                data: encodedString,
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            requestString = [API.THEV, 'Dashboard/follow', id, $sessionStorage.AUD].filter(Boolean).join('/')
+            return $http.post(requestString, '', {
+                headers: { 'Authorization': 'Bearer ' + $sessionStorage.USER_TOKEN }
             }).then(function (result) {
-                modalRequestSent.modal('show')
+                jQuery('#mdlRequestSent').modal('show')
                 getFollowing();
             }, function (error) {
                 console.log(error)
@@ -52,22 +42,12 @@ app.factory('srvc_channel', function ($localStorage, $sessionStorage, $http, API
 
         'unfollow': function (id) {
 
-            userId = $localStorage.USER_DATA.id;
-
-            var encodedString = 'action=' + encodeURIComponent('DDrupal_Channel_UnfollowChannel') + "&id="
-                + encodeURIComponent(id) + "&userid="
-                + encodeURIComponent(userId);
-
-            return $http({
-                method: 'POST',
-                url: API.URL,
-                data: encodedString,
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            requestString = [API.THEV, 'Dashboard/unfollow', id, $sessionStorage.AUD].filter(Boolean).join('/')
+            return $http.post(requestString, '', {
+                headers: { 'Authorization': 'Bearer ' + $sessionStorage.USER_TOKEN }
             }).then(function (result) {
-                if (result.data[0].Data == 'True') {
-                    modalUnfollowed.modal('show')
-                    getFollowing();
-                }
+                jQuery('#mdlUnfollowed').modal('show')
+                getFollowing();
             }, function (error) {
                 console.log(error)
             })
@@ -79,8 +59,10 @@ app.factory('srvc_channel', function ($localStorage, $sessionStorage, $http, API
 
             requestString = [API.THEV, 'Channel/comment', title, $sessionStorage.AUD].filter(Boolean).join('/')
             console.log(requestString)
-
+            console.log(comment)
             return $http.get(requestString, {
+                params: comment,
+                headers: { 'Authorization': 'Bearer ' + $sessionStorage.USER_TOKEN }
             })
 
         },
@@ -110,7 +92,7 @@ app.factory('srvc_channel', function ($localStorage, $sessionStorage, $http, API
 
 
 
-        'getFollowing': function () { 
+        'getFollowing': function () {
             getFollowing()
         }
 

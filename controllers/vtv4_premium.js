@@ -34,8 +34,8 @@ angular.module('vtAppCtrlPremium', ['ngStorage', 'vtPlayVidService', 'vtAppConst
             // recentlyAdded.find('.owl-stage-outer').children().unwrap();
             VID_ID = $scope.premiumVids[index].id;
             srvc_loadVid.loadRelatedVideos(VID_ID, 8, 1).then(function (result) {
-                console.log(result)
                 $scope.relatedVideos = result.data;
+                console.log($scope.relatedVideos)
 
             }, function (error) {
                 console.log(error)
@@ -61,10 +61,12 @@ angular.module('vtAppCtrlPremium', ['ngStorage', 'vtPlayVidService', 'vtAppConst
 
     .directive("ngCheckRelated", function (srvc_premium, $timeout) {
         return function (scope, element, attrs) {
+            console.log(scope)
             if (scope.$last) {
                 $timeout(function () {
-
+                    console.log("initRelated")
                     srvc_premium.initRelated();
+
                 }, 3000)
 
             }

@@ -1,27 +1,24 @@
-angular.module('vtAppCtrlHeaderOut', ['ngStorage', 'vtAppConstants', 'vtAppCtrlChannel'])
+angular.module('vtAppCtrlHeaderOut', ['ngStorage', 'vtAppConstants', 'vtChannelService', 'vtPlayVidService'])
 
-    .controller("ctrl_HeaderMenu", function ($scope, $rootScope, $localStorage, $sessionStorage, API, $http, srvc_channel) {
+    .controller("ctrl_HeaderMenu", function ($scope, $rootScope, $localStorage, $sessionStorage, API,
+        $http, srvc_channel, srvc_playVid) {
 
         $scope.$watch(function () { return $localStorage.IS_LOGGED; }, function (newVal, oldVal) {
             $scope.isLogged = newVal;
             $scope.userData = $localStorage.USER_DATA;
+            srvc_playVid.loadPlaylist();
         });
 
-        $rootScope.aud = $sessionStorage.AUD
-        $rootScope.token = $sessionStorage.USER_TOKEN
         $rootScope.chosenLang = '';
         $rootScope.displayLang = 'ENGLISH'
 
-        console.log($rootScope.aud)
-        console.log($rootScope.token)
-
-        if ($rootScope.aud == undefined && $rootScope.token == undefined) {
+        if ($sessionStorage.AUD == undefined && $sessionStorage.USER_TOKEN == undefined) {
+            $localStorage.IS_LOGGED = false;
             var paramToken = new URLSearchParams(window.location.search)
             if (paramToken.has('token') && paramToken.has('aud')) {
                 $sessionStorage.USER_TOKEN = paramToken.get('token')
                 $sessionStorage.AUD = paramToken.get('aud')
                 getUserDetails()
-                window.location.href = '/home';
                 //  $localStorage.IS_LOGGED = true;
             }
         }
@@ -76,12 +73,13 @@ angular.module('vtAppCtrlHeaderOut', ['ngStorage', 'vtAppConstants', 'vtAppCtrlC
                 headers: { 'Authorization': 'Bearer ' + authToken }
             }).then(function (result) {
                 $localStorage.USER_DATA = result.data[0]
-
+                $localStorage.IS_LOGGED = true;
+                window.location.href = '/home';
             }, function (error) {
                 console.log(error)
             })
 
-            srvc_channel.getFollowing();
+            // srvc_channel.getFollowing();
         }
 
 

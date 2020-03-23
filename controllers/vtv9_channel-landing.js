@@ -47,7 +47,7 @@ angular.module('vtAppCtrlChannelLanding', ['vtPlayVidService', 'vtDetailsService
 
             e.preventDefault();
             if (!$scope.isLogged) {
-                $('#loginRequiredModal').modal('show')
+                jQuery('#loginRequiredModal').modal('show')
 
             }
             else {
