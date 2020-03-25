@@ -1,0 +1,591 @@
+<!--Start: Video Log Out Section 1-->
+<div ng-controller="ctrl_nowplaying">
+    <section id="Section_videoLogOut1" class="vt-video1-wrapper vt-background--grey" ng-if="!isSubscribed">
+        <div class="container pt-4">
+            <div class="row">
+                <div id="divVideo1Player" class="col-md-12 col-lg-7"><iframe class="w-100 h-100 vt-player--height"
+                        ng-src="{{safeUrl}}" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe>
+                </div>
+                <div id="divVideo1List" class="col-md-12 col-lg-5 d-none d-lg-block">
+                    <div class="h-100 vt-background--white p-3">
+                        <div class="d-flex">
+                            <h4 class="text-dark pr-2">تصفح الفيديو</h4><a id="linkVtbSeeallRelatedVideos" class="pt-1"
+                                href="/ar/see-all?see=related&amp;allof={{currentVideo.id}}">اظهار الكل</a>
+                        </div>
+                        <div class="vt-videoplayer__cards row justify-content-center pt-2 px-2 text-center">
+                            <div class="col-xs-6 col-sm-6 mb-3 px-1" ng-repeat="videos in relatedVideos">
+                                <div class="vt-card-wrapper p-0 mb-2 mx-auto">
+                                    <div class="vt-cards__duration vt-background--grey-darker row">
+                                        <div class="col p-0">
+                                            <div class="px-2 py-1 d-flex float-left"><span id="txtVtbVideoDuration"
+                                                    class="pl-1 small">{{videos.time}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="vt-cards__points vt-background--grey-darker row">
+                                        <div class="col p-0">
+                                            <div class="  px-2 py-1 d-flex float-left">
+                                                <picture class="d-flex">
+                                                    <source srcset="/Resources/vtube/images/vt-points.svg">
+                                                    </source>
+                                                    <source srcset="/Resources/vtube/images/vt-points.svg">
+                                                    </source><img src="./Resources/vtube/images/vt-points.svg"
+                                                        alt="Points icon" /></picture>
+                                                <span id="txtVtbPoints" class="pl-1 small">{{videos.points}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="vt-cards--darker rounded"></div>
+                                    <div class="vt-cards__overlay">
+                                        <a ng-if="checkVideoPrivacy(videos.videoPrivacy, videos.tags)"
+                                            href="/ar/now-playing?watch={{videos.id}}" type="submit" id="btnVtbPlay"
+                                            class="btn btn-primary  col-sm-12 d-flex mr-1 mb-2 mx-auto">
+                                            <div class="m-auto">
+                                                <picture>
+                                                    <source class="vt-cards--playbtn align-self-center"
+                                                        srcset="/Resources/vtube/images/vt-play.svg">
+                                                    </source>
+                                                    <source class="vt-cards--playbtn align-self-center"
+                                                        srcset="/Resources/vtube/images/vt-play.svg">
+                                                    </source><img class="vt-cards--playbtn align-self-center"
+                                                        src="./Resources/vtube/images/vt-play.svg" alt="Play icon" />
+                                                </picture>
+                                                لعب
+                                            </div>
+                                        </a>
+
+                                        <button id="btnVtbAddToPlaylist" ng-if="isLogged"
+                                            ng-click="addToPlaylist(videos.id, $event)"
+                                            class="btn btn-dark  col-sm-12 d-flex mx-auto">
+                                            <div class="m-auto">
+                                                <picture>
+                                                    <source class="vt-cards--addtoplaylistbtn align-self-center"
+                                                        srcset="/Resources/vtube/images/vt-add-to-playlist.svg">
+                                                    </source>
+                                                    <source class="vt-cards--addtoplaylistbtn align-self-center"
+                                                        srcset="/Resources/vtube/images/vt-add-to-playlist.svg">
+                                                    </source><img class="vt-cards--addtoplaylistbtn align-self-center"
+                                                        src="./Resources/vtube/images/vt-add-to-playlist.svg"
+                                                        alt="add to playlist icon" /></picture>
+                                                قائمة التشغيل
+                                            </div>
+                                        </button></div>
+                                    <picture>
+                                        <source srcset="{{videos.image}}" ng-check-image="">
+                                        </source>
+                                        <source srcset="https://via.placeholder.com/273x185">
+                                        </source><img class="rounded img-fluid"
+                                            src="https://via.placeholder.com/273x185" alt="Card Placeholder" />
+                                    </picture>
+                                </div>
+                                <div class="text-center">
+                                    <p class="mb-1">
+                                        <a
+                                            ng-href="{{checkVideoPrivacy(videos.videoPrivacy, videos.tags) ? '/ar/now-playing?watch=' + videos.id : $event.preventDefault()}}">
+                                            <picture ng-if="videos.videoPrivacy == 'private'">
+                                                <source srcset="/Resources/vtube/images/vt-premium-lock.svg">
+                                                </source>
+                                                <source srcset="/Resources/vtube/images/vt-premium-lock.svg">
+                                                </source><img class="vt-cards__locked-icon mr-2 align-text-bottom"
+                                                    src="./Resources/vtube/images/vt-premium-lock.svg"
+                                                    alt="premium lock icon" style="filter:invert(0.5);" /></picture>
+                                            {{videos.title}}
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End: Video Log in Section 1-->
+    <!--Start: Video Log in Section 2-->
+    <section id="Section_videoLogIn2" class="vt-video-wrapper vt-background--grey" ng-if="!isSubscribed">
+        <div class="container pt-lg-4 pb-4">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="vt-background--grey-dark p-3">
+                        <p><a href="/ar/categories?category={{currentVideo.category}}"
+                                class="vt-background--grey p-1 rounded">{{currentVideo.category}}</a><a
+                                href="/ar/channel-landing?channel={{currentVideo.channelId}}" id="txtVtbChannelName"
+                                class="pt-0 pl-1 text-muted">{{currentVideo.channelName}}</a>
+                        </p>
+                        <h4 id="txtVtbVideoTitle">{{currentVideo.title}}</h4>
+                        <p class="mb-0 text-muted small"><span id="txtVtbVideoUploader">بواسطة
+                                {{currentVideo.createdBy}}</span> .
+                            <span id="txtVtbUploadDate">{{currentVideo.days}}</span></p>
+                        <p class="mb-1 text-muted small"><span id="txtVtbvideoViews">{{currentVideo.views}}
+                                Views</span> . <span id="txtVtbVideoLikes">{{currentVideo.likes}} الإعجابات</span></p>
+                        <p class="mb-1 text-muted small">
+                            <picture>
+                                <source srcset="/Resources/vtube/images/vt-available-translations.svg"
+                                    type="image/webp">
+                                </source>
+                                <source srcset="/Resources/vtube/images/vt-available-translations.svg"
+                                    type="image/jpeg">
+                                </source><img class="mr-1" src="./Resources/vtube/images/vt-available-translations.svg"
+                                    alt="share Icon" /></picture>
+                            <span id="txtVtbVideoAvailbleTranslations">{{currentVideo.language}}</span>
+                        </p>
+                        <div class="d-flex justify-content-center mt-4">
+                            <ul class="vt-videotab--link nav nav-pills" id="pills-tab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link px-2" ng-click="addLikes($event)">
+                                        <picture>
+                                            <source srcset="/Resources/vtube/images/vt-likes.svg" type="image/webp">
+                                            </source>
+                                            <source srcset="/Resources/vtube/images/vt-likes.svg" type="image/jpeg">
+                                            </source><img src="./Resources/vtube/images/vt-likes.svg"
+                                                alt="share Icon" /></picture>
+                                        مثل
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link px-2" id="pills-share-tab" data-toggle="pill"
+                                        href="#pillsVtbShareIn" role="tab" aria-controls="pills-share"
+                                        aria-selected="false">
+                                        <picture>
+                                            <source srcset="/Resources/vtube/images/vt-share.svg" type="image/webp">
+                                            </source>
+                                            <source srcset="/Resources/vtube/images/vt-share.svg" type="image/jpeg">
+                                            </source><img src="./Resources/vtube/images/vt-share.svg"
+                                                alt="share Icon" /></picture>
+                                        شارك
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a ng-if="isLogged" ng-click="addToPlaylist(currentVideo.id, $event)"
+                                        class="nav-link px-2">
+                                        <picture>
+                                            <source srcset="/Resources/vtube/images/vt-add-to-playlist.svg"
+                                                type="image/webp">
+                                            </source>
+                                            <source srcset="/Resources/vtube/images/vt-add-to-playlist.svg"
+                                                type="image/jpeg">
+                                            </source><img src="./Resources/vtube/images/vt-add-to-playlist.svg"
+                                                alt="add to playlist icon" /></picture>
+                                        أضف إلى قائمة التشغيل
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link px-2 active" id="pills-about-tab" data-toggle="pill"
+                                        href="#pillsVtbAboutIn" role="tab" aria-controls="pills-contact"
+                                        aria-selected="false">
+                                        <picture>
+                                            <source srcset="/Resources/vtube/images/vt-about.svg" type="image/webp">
+                                            </source>
+                                            <source srcset="/Resources/vtube/images/vt-about.svg" type="image/jpeg">
+                                            </source><img src="./Resources/vtube/images/vt-about.svg"
+                                                alt="about Icon" /></picture>
+                                        حول
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="vt-background--white p-3">
+                        <div class="tab-content">
+                            <div class="tab-pane fade" id="pillsVtbShareIn" role="tabpanel"
+                                aria-labelledby="pills-share-tab">
+                                <div class="d-flex justify-content-center">
+                                    <div class="col-xs-4 m-3 text-center"><a data-toggle="modal"
+                                            data-target="#mdlVtbShare" href=""><img
+                                                src="./Resources/vtube/images/vt-fb.svg" alt="facebook icon" />
+                                            <p>Facebook</p>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-4 m-3 text-center"><a data-toggle="modal"
+                                            data-target="#mdlVtbTwitter" href=""><img
+                                                src="./Resources/vtube/images/vt-twitter.svg" alt="twitter icon" />
+                                            <p>Twitter</p>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-4 m-3 text-center"><a data-toggle="modal"
+                                            data-target="#mdlVtbCopyLink" href=""><img
+                                                src="./Resources/vtube/images/vt-copy-link.svg" alt="copy link icon" />
+                                            <p>Copy Link</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade show active" id="pillsVtbAboutIn" role="tabpanel"
+                                aria-labelledby="pills-about-tab">
+                                <h5>وصف</h5>
+                                <p id="txtVtbDescription" class="vt-description--height">{{currentVideo.description}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="divVideo1List" class="col-md-12 col-lg-5 d-lg-none d-sm-block my-4">
+                    <div class="h-100 vt-background--white p-3">
+                        <div class="d-flex">
+                            <h4 class="text-dark pr-2">تصفح الفيديو</h4><a id="linkVtbSeeallRelatedVideos" class="pt-1"
+                                href="/ar/see-all?see=related&amp;allof={{currentVideo.id}}">اظهار الكل</a>
+                        </div>
+                        <div class="vt-videoplayer__cards row justify-content-center pt-2 px-2 text-center">
+                            <div class="col-xs-6 col-sm-6 mb-3 w-75 px-1" ng-repeat="videos in relatedVideos">
+                                <div class="vt-card-wrapper p-0 mb-2 mx-auto">
+                                    <div class="vt-cards__duration vt-background--grey-darker row">
+                                        <div class="col p-0">
+                                            <div class="px-2 py-1 d-flex float-left"><span id="txtVtbVideoDuration"
+                                                    class="pl-1 small">{{videos.time}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="vt-cards__points vt-background--grey-darker row">
+                                        <div class="col p-0">
+                                            <div class="  px-2 py-1 d-flex float-left">
+                                                <picture class="d-flex">
+                                                    <source srcset="/Resources/vtube/images/vt-points.svg">
+                                                    </source>
+                                                    <source srcset="/Resources/vtube/images/vt-points.svg">
+                                                    </source><img src="./Resources/vtube/images/vt-points.svg"
+                                                        alt="Points icon" /></picture>
+                                                <span id="txtVtbPoints" class="pl-1 small">{{videos.points}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="vt-cards--darker rounded"></div>
+                                    <div class="vt-cards__overlay">
+                                        <a ng-if="checkVideoPrivacy(videos.videoPrivacy, videos.tags)"
+                                            href="/ar/now-playing?watch={{videos.id}}" type="submit" id="btnVtbPlay"
+                                            class="btn btn-primary mr-2 d-flex align-items-center">
+                                            <div class="m-auto">
+                                                <picture>
+                                                    <source class="vt-cards--playbtn align-self-center"
+                                                        srcset="/Resources/vtube/images/vt-play.svg">
+                                                    </source>
+                                                    <source class="vt-cards--playbtn align-self-center"
+                                                        srcset="/Resources/vtube/images/vt-play.svg">
+                                                    </source><img class="vt-cards--playbtn align-self-center"
+                                                        src="./Resources/vtube/images/vt-play.svg" alt="Play icon" />
+                                                </picture>
+                                                لعب
+                                            </div>
+                                        </a>
+                                        <button id="btnVtbAddToPlaylist" ng-if="isLogged"
+                                            ng-click="addToPlaylist(videos.id, $event)"
+                                            class="btn btn-dark  col-sm-12 d-flex mx-auto">
+                                            <div class="m-auto">
+                                                <picture>
+                                                    <source class="vt-cards--addtoplaylistbtn align-self-center"
+                                                        srcset="/Resources/vtube/images/vt-add-to-playlist.svg">
+                                                    </source>
+                                                    <source class="vt-cards--addtoplaylistbtn align-self-center"
+                                                        srcset="/Resources/vtube/images/vt-add-to-playlist.svg">
+                                                    </source><img class="vt-cards--addtoplaylistbtn align-self-center"
+                                                        src="./Resources/vtube/images/vt-add-to-playlist.svg"
+                                                        alt="add to playlist icon" /></picture>
+                                                قائمة التشغيل
+
+                                            </div>
+                                        </button></div>
+                                    <picture>
+                                        <source srcset="{{videos.image}}" ng-check-image="">
+                                        </source>
+                                        <source srcset="https://via.placeholder.com/273x185">
+                                        </source><img class="rounded img-fluid"
+                                            src="https://via.placeholder.com/273x185" alt="Card Placeholder" />
+                                    </picture>
+                                </div>
+                                <div class="text-center">
+                                    <p class="mb-1">
+                                        <a
+                                            ng-href="{{checkVideoPrivacy(videos.videoPrivacy, videos.tags) ? '/ar/now-playing?watch=' + videos.id : $event.preventDefault()}}">
+                                            <picture>
+                                                <source srcset="/Resources/vtube/images/vt-premium-lock.svg">
+                                                </source>
+                                                <source srcset="/Resources/vtube/images/vt-premium-lock.svg">
+                                                </source><img class="vt-cards__locked-icon mr-2 align-text-bottom"
+                                                    src="./Resources/vtube/images/vt-premium-lock.svg"
+                                                    alt="premium lock icon" /></picture>
+                                            {{videos.title}}
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="vt-background--white p-3 h-100">
+                        <h4>تعليقات</h4>
+                        <form>
+                            <div class="form-group" ng-show="isLogged"><textarea ng-model="userComment.comment"
+                                    class="form-control bg-light text-dark" id="txtAreaVtbVideoInAddComment1"
+                                    rows="3"></textarea>
+                                <div class="d-flex"><button id="btnVtbAddComment3" ng-click="submitComment($event)"
+                                        class="btn btn-primary">تعليق</button></div>
+                            </div>
+                        </form>
+                        <div class="vt-comments__list">
+                            <div class="vt-comments--item d-flex" ng-repeat="comments in commentList">
+                                <table class="table mb-0 k-table">
+                                    <tbody>
+                                        <tr>
+                                            <td class="vt-width--70px px-0">
+                                                <picture id="txtVtblinkVtbUserPicture">
+                                                    <source class="vt-comments--thumbnail"
+                                                        srcset="{{comments.imageUser}}" type="image/webp">
+                                                    </source>
+                                                    <source class="vt-comments--thumbnail"
+                                                        srcset="https://via.placeholder.com/80x80" type="image/jpeg">
+                                                    </source><img
+                                                        class="vt-comments--thumbnail img-fluid rounded-circle"
+                                                        src="https://via.placeholder.com/80x80"
+                                                        alt="User Picture Icon" /></picture>
+                                            </td>
+                                            <td>
+                                                <h5 class="mb-1"><a id="linkVtbUsername"
+                                                        href="">{{comments.CreatedBy}}</a><span
+                                                        class="ml-2 small text-muted"><span class="small"
+                                                            id="txtVtbCommentDate">{{comments.CreatedOn}}</span>
+                                                    </span>
+                                                </h5>
+                                                <p id="txtVtbCommentBody">{{comments.Comment}}</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- <div class="col-sm-2 p-0 mr-2">
+                                <picture id="txtVtblinkVtbUserPicture">
+                                    <source class="vt-comments--thumbnail" srcset="{{comments.imageUser}}" type="image/webp">
+                                    <source class="vt-comments--thumbnail" srcset="https://via.placeholder.com/80x80" type="image/jpeg">
+                                    <img class="vt-comments--thumbnail img-fluid rounded-circle" src="https://via.placeholder.com/80x80"
+                                        alt="User Picture Icon"></picture>
+                            </div>
+                            <div class="col-xs-10">
+                                <h5 class="mb-1"><a id="linkVtbUsername" href="">{{comments.CreatedBy}}</a><span
+                                        class="ml-2 small text-muted"><span class="small"
+                                            id="txtVtbCommentDate">{{comments.CreatedOn}}</span>
+                                    </span></h5>
+                                <p id="txtVtbCommentBody">{{comments.Comment}}</p>
+
+                            </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End: Video Log in Section 2-->
+
+    <!--Start: Video Premium Section 1, If login PREMIUM this section should be showned-->
+    <section id="Section_videoLogPremium" class="vt-video1-wrapper vt-premium-bg vt-overlay--black"
+        style="background-image:url({{currentVideo.image}});" ng-if="isSubscribed">
+        <div class="container container-940 pt-4">
+            <a id="linkVtbVideoPremiumGoBack" ng-click="goBack()" class="vt-premium--back vt-seeall__link ">
+                <picture class="d-inline-flex pr-2">
+                    <source srcset="/Resources/vtube/images/vt-arrow-right.svg" type="image/webp">
+                    </source>
+                    <source srcset="/Resources/vtube/images/vt-arrow-right.svg" type="image/jpeg">
+                    </source><img src="./Resources/vtube/images/vt-arrow-right.svg" alt="arrow left icon" /></picture>
+                عودة
+            </a>
+            <div class="py-4">
+                <div class="row">
+                    <div id="divVideo1Player" class="col-md-12"><iframe class="w-100 h-100 vt-player--height"
+                            ng-src="{{safeUrl}}" allowfullscreen="" webkitallowfullscreen=""
+                            mozallowfullscreen=""></iframe></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End: Video Premium Section 1-->
+    <!--Start: Video Premium Section 2-->
+    <section id="Section_videoLogPremium"
+        class="vt-video-wrapper vt-background--grey vt-premium-section2-bg vt-overlay--black">
+        <div class="container container-940 py-4" ng-if="isSubscribed">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="vt-background--grey-dark p-3 row m-0">
+                        <div class="col-sm-12 p-0">
+                            <p><a href="/ar/categories?category={{currentVideo.category}}"
+                                    class="vt-background--grey p-1 rounded">{{currentVideo.category}}</a>
+                                <span id="txtVtbChannelName"
+                                    class="pt-0 pl-1 text-muted">{{currentVideo.channelName}}</span>
+                                <img class="float-right img-fluid col-2 p-1"
+                                    src="./Resources/vtube/images/vt-premium-logo.svg" alt="" /></p>
+                            <h4 id="txtVtbVideoTitle">{{currentVideo.title}}</h4>
+                            <p class="mb-0 text-muted small"><span id="txtVtbVideoUploader">بواسطة
+                                    {{currentVideo.createdBy}}</span> .
+                                <span id="txtVtbUploadDate">{{currentVideo.days}}</span></p>
+                            <p class="mb-0 text-muted small"><span id="txtVtbvideoViews">{{currentVideo.views}}
+                                    الآراء</span> . <span id="txtVtbVideoLikes">{{currentVideo.likes}} الإعجابات</span>
+                            </p>
+                            <p class="mb-1 text-muted small">
+                                <picture>
+                                    <source srcset="/Resources/vtube/images/vt-available-translations.svg"
+                                        type="image/webp">
+                                    </source>
+                                    <source srcset="/Resources/vtube/images/vt-available-translations.svg"
+                                        type="image/jpeg">
+                                    </source><img class="mr-1"
+                                        src="./Resources/vtube/images/vt-available-translations.svg" alt="share Icon" />
+                                </picture>
+                                <span id="txtVtbVideoAvailbleTranslations">{{currentVideo.language}}</span>
+                            </p>
+                            <div class="d-flex justify-content-center mt-4">
+                                <ul class="vt-videotab--link nav nav-pills" id="pills-tab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link px-2" ng-click="addLikes($event)">
+                                            <picture>
+                                                <source srcset="/Resources/vtube/images/vt-likes.svg" type="image/webp">
+                                                </source>
+                                                <source srcset="/Resources/vtube/images/vt-likes.svg" type="image/jpeg">
+                                                </source><img src="./Resources/vtube/images/vt-likes.svg"
+                                                    alt="like Icon" /></picture>
+                                            مثل
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link px-2" id="pills-share-tab" data-toggle="pill"
+                                            href="#pillsVtbShareOut" role="tab" aria-controls="pills-share"
+                                            aria-selected="false">
+                                            <picture>
+                                                <source srcset="/Resources/vtube/images/vt-share.svg" type="image/webp">
+                                                </source>
+                                                <source srcset="/Resources/vtube/images/vt-share.svg" type="image/jpeg">
+                                                </source><img src="./Resources/vtube/images/vt-share.svg"
+                                                    alt="share Icon" /></picture>
+                                            شارك
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link px-2" id="pills-comments-tab" data-toggle="pill"
+                                            href="#pillsVtbCommentsOut" role="tab" aria-controls="pills-contact"
+                                            aria-selected="false">
+                                            <picture>
+                                                <source srcset="/Resources/vtube/images/vt-comments.svg"
+                                                    type="image/webp">
+                                                </source>
+                                                <source srcset="/Resources/vtube/images/vt-comments.svg"
+                                                    type="image/jpeg">
+                                                </source><img src="./Resources/vtube/images/vt-comments.svg"
+                                                    alt="about Icon" /></picture>
+                                            تعليقات
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a ng-if="isLogged" ng-click="addToPlaylist(currentVideo.id, $event)"
+                                            class="nav-link px-2">
+                                            <picture>
+                                                <source srcset="/Resources/vtube/images/vt-add-to-playlist.svg"
+                                                    type="image/webp">
+                                                </source>
+                                                <source srcset="/Resources/vtube/images/vt-add-to-playlist.svg"
+                                                    type="image/jpeg">
+                                                </source><img src="/Resources/vtube/images/vt-add-to-playlist.svg"
+                                                    alt="add to playlist icon" /></picture>
+                                            أضف إلى قائمة التشغيل
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link px-2 active" id="pills-about-tab" data-toggle="pill"
+                                            href="#pillsVtbAboutIn" role="tab" aria-controls="pills-contact"
+                                            aria-selected="false">
+                                            <picture>
+                                                <source srcset="/Resources/vtube/images/vt-about.svg" type="image/webp">
+                                                </source>
+                                                <source srcset="/Resources/vtube/images/vt-about.svg" type="image/jpeg">
+                                                </source><img src="/Resources/vtube/images/vt-about.svg"
+                                                    alt="about Icon" /></picture>
+                                            حول
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="vt-background--white ">
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade p-3" id="pillsVtbShareOut" role="tabpanel"
+                                aria-labelledby="pills-share-tab">
+                                <div class="d-flex justify-content-center p-5">
+                                    <div class="col-xs-4 m-3 text-center"><a data-toggle="modal"
+                                            data-target="#mdlVtbShare" href=""><img
+                                                src="./Resources/vtube/images/vt-fb.svg" alt="facebook icon" />
+                                            <p>Facebook</p>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-4 m-3 text-center"><a data-toggle="modal"
+                                            data-target="#mdlVtbTwitter" href=""><img
+                                                src="./Resources/vtube/images/vt-twitter.svg" alt="twitter icon" />
+                                            <p>Twitter</p>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-4 m-3 text-center"><a data-toggle="modal"
+                                            data-target="#mdlVtbCopyLink" href=""><img
+                                                src="./Resources/vtube/images/vt-copy-link.svg" alt="copy link icon" />
+                                            <p>Copy Link</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade show active p-3" id="pillsVtbAboutIn" role="tabpanel"
+                                aria-labelledby="pills-about-tab">
+                                <h5>وصف</h5>
+                                <p id="txtVtbDescription" class="vt-description--height">{{currentVideo.description}}
+                                </p>
+                            </div>
+                            <div class="tab-pane fade p-3" id="pillsVtbCommentsOut" role="tabpanel"
+                                aria-labelledby="pills-about-tab">
+                                <h4>تعليقات</h4>
+                                <form>
+                                    <div class="form-group" ng-show="isLogged"><textarea ng-model="userComment.comment"
+                                            class="form-control bg-light text-dark"
+                                            id="txtAreaVtbVideoPremiumAddComment" rows="3"></textarea>
+                                        <div class="d-flex"><button id="btnVtbAddComment2"
+                                                class="btn btn-primary">تعليق</button></div>
+                                    </div>
+                                </form>
+                                <div class="vt-premium-comments__list">
+                                    <div class="vt-comments--item d-flex" ng-repeat="comments in commentList">
+                                        <table class="table mb-0 k-table">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="vt-width--70px px-0">
+                                                        <picture id="txtVtblinkVtbUserPicture">
+                                                            <source class="vt-comments--thumbnail"
+                                                                srcset="{{comments.imageUser}}" type="image/webp">
+                                                            </source>
+                                                            <source class="vt-comments--thumbnail"
+                                                                srcset="https://via.placeholder.com/80x80"
+                                                                type="image/jpeg">
+                                                            </source><img
+                                                                class="vt-comments--thumbnail img-fluid rounded-circle"
+                                                                src="https://via.placeholder.com/80x80"
+                                                                alt="User Picture Icon" /></picture>
+                                                    </td>
+                                                    <td>
+                                                        <h5 class="mb-1"><a id="linkVtbUsername"
+                                                                href="">{{comments.CreatedBy}}</a><span
+                                                                class="ml-2 small text-muted"><span class="small"
+                                                                    id="txtVtbCommentDate">{{comments.CreatedOn}}</span>
+                                                            </span>
+                                                        </h5>
+                                                        <p id="txtVtbCommentBody">{{comments.Comment}}</p>
+                                                        <!-- <p><a href=""><strong>View <span id="txtVtbNumberOfComments">6</span>
+                                                                        Reply</strong></a>
+                                                        </p> -->
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End: Video Premium Section 2-->
+</div>
