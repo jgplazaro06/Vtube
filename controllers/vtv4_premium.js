@@ -23,23 +23,28 @@ angular.module('vtAppCtrlPremium', ['ngStorage', 'vtPlayVidService', 'vtAppConst
         srvc_loadVid.loadVideo('Premium', 8, 1).then(function (result) {
             console.log(result)
             $scope.premiumVids = result.data;
-            getRelated(0)
+            
+            srvc_loadVid.loadRelatedVideos($scope.premiumVids[0].id, 8, 1).then(function (result) {
+                result.data.forEach(element => {
+                    element.description = element.description.substring(0, 50) + '...'
+                });
+                $scope.relatedVideos = result.data;
+
+            }, function (error) {
+                console.log(error)
+            })
 
         }, function (error) {
             console.log(error)
         })
 
+
+
         function getRelated(index) {
 
             // recentlyAdded.find('.owl-stage-outer').children().unwrap();
             VID_ID = $scope.premiumVids[index].id;
-            srvc_loadVid.loadRelatedVideos(VID_ID, 8, 1).then(function (result) {
-                $scope.relatedVideos = result.data;
-                console.log($scope.relatedVideos)
 
-            }, function (error) {
-                console.log(error)
-            })
         }
 
 
@@ -54,14 +59,13 @@ angular.module('vtAppCtrlPremium', ['ngStorage', 'vtPlayVidService', 'vtAppConst
                 $timeout(function () {
                     srvc_premium.initCarousel();
                 }, 300)
-
             }
         };
     })
 
     .directive("ngCheckRelated", function (srvc_premium, $timeout) {
         return function (scope, element, attrs) {
-            console.log(scope)
+
             if (scope.$last) {
                 $timeout(function () {
                     console.log("initRelated")
@@ -70,6 +74,7 @@ angular.module('vtAppCtrlPremium', ['ngStorage', 'vtPlayVidService', 'vtAppConst
                 }, 3000)
 
             }
+
         };
     })
 

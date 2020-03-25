@@ -1,0 +1,170 @@
+<div ng-controller="ctrl_homeDefault">
+    <!--Start: Header Log Out Section-->
+    <section id="Section_homeLogIn1" class="vt-homeLog1-wrapper vt-background--grey" ng-if="isDisabled">
+        <div id="crslVtbHomeLogin" class="owl-carousel owl-theme">
+            <div class="vt-jumbotron__homepage-bg1 d-flex align-items-center vt-overlay--black-light">
+                <div class="container">
+                    <picture class="d-flex justify-content-center">
+                        <source srcset="/Resources/vtube/images/vt-home-carousel1.svg" type="image/webp">
+                        </source>
+                        <source srcset="/Resources/vtube/images/vt-home-carousel1.svg" type="image/jpeg">
+                        </source><img class="vt-homeLogIn1__carousel1 img-fluid"
+                            src="/Resources/vtube/images/vt-home-carousel1.svg" alt="Carousel Logo Icon" /></picture>
+                </div>
+            </div>
+            <div class="vt-jumbotron__homepage-bg1 d-flex align-items-center vt-overlay--black-light">
+                <div class="container text-center">
+                    <picture class="d-flex justify-content-center">
+                        <source srcset="/Resources/vtube/images/vt-home-carousel2.svg" type="image/webp">
+                        </source>
+                        <source srcset="/Resources/vtube/images/vt-home-carousel2.svg" type="image/jpeg">
+                        </source><img class="mb-3 img-fluid" src="/Resources/vtube/images/vt-home-carousel2.svg"
+                            alt="Carousel Logo Icon" /></picture>
+                    <h1 id="txtVtbIntroductionTitle">INTRODUCTION</h1>
+                    <p id="txtVtbIntroductionDescription">INTRODUCTION</p>
+                </div>
+            </div>
+            <div class="vt-jumbotron__homepage-bg1 d-flex align-items-center vt-overlay--black-light">
+                <div class="container text-center">
+                    <h2 id="txtVtbNoAccountTitle">DON&rsquo;T HAVE AN ACCOUNT?</h2><button href="/sign-up"
+                        id="btnVtbUpgrade" class="btn btn-primary" sfref="~/sign-up">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End: Header Log Out Section-->
+
+    <!--Start: Home Log Out Section 1-->
+    <section id="Section_homeLogOut1" class="vt-homeLog1-wrapper vt-background--grey">
+        <div class="vt-jumbotron__homepage-bg1 d-flex align-items-center vt-overlay--black-light">
+            <div class="container">
+                <picture class="d-flex justify-content-center">
+                    <source srcset="/Resources/vtube/images/vt-home-carousel1.svg" type="image/webp">
+                    </source>
+                    <source srcset="/Resources/vtube/images/vt-home-carousel1.svg" type="image/jpeg">
+                    </source><img class="vt-homeLogIn1__carousel1 img-fluid"
+                        src="/Resources/vtube/images/vt-home-carousel1.svg" alt="Carousel Logo Icon" /></picture>
+            </div>
+        </div>
+    </section>
+    <!--End: Home Log Out Section 1-->
+    <!--Start: Home Log Out Section 2-->
+
+    <section id="Section_homeLogOut2" class="vt-homeLog2-wrapper vt-background--grey" ng-repeat="section in vidSection">
+        <div class="container py-4">
+            <div class="d-flex text-light pb-3">
+                <h4 id="txtVtbBrowseVideosTitle" class="pr-2">{{section.name}}</h4><a id="linkVtbBrowseVideos"
+                    ng-href="{{section.link}}" class="pt-1 t-seeall--link">See All
+                    <picture class="d-inline-flex">
+                        <source srcset="/Resources/vtube/images/vt-arrow-right.svg" type="image/webp">
+                        </source>
+                        <source srcset="/Resources/vtube/images/vt-arrow-right.svg" type="image/jpeg">
+                        </source><img src="/Resources/vtube/images/vt-arrow-right.svg" alt="arrow right icon" />
+                    </picture>
+                </a>
+            </div>
+            <div class="row vt-cards d-flex justify-content-center text-light">
+                <div class="mb-3" ng-repeat="vid in section.content track by $index">
+                    <div class="vt-card-wrapper col-md-auto px-0 mb-2 mx-1">
+                        <div class="vt-cards__duration vt-background--grey-darker row">
+                            <div class="col p-0">
+                                <div class="px-2 py-1 d-flex float-left"><span id="txtVtbVideoDuration"
+                                        class="pl-1 small">{{vid.time}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="vt-cards__points vt-background--grey-darker row">
+                            <div class="col p-0">
+                                <div class="  px-2 py-1 d-flex float-left">
+                                    <picture class="d-flex">
+                                        <source srcset="/Resources/vtube/images/vt-points.svg">
+                                        </source>
+                                        <source srcset="/Resources/vtube/images/vt-points.svg">
+                                        </source><img src="/Resources/vtube/images/vt-points.svg" alt="Points icon" />
+                                    </picture>
+                                    <span id="txtVtbPoints" class="pl-1 small">{{vid.points}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="vt-cards--darker rounded"></div>
+                        <div class="vt-cards__overlay">
+                            <div class="d-flex mb-3">
+                                <a ng-if="checkVideoPrivacy(vid.videoPrivacy, vid.tags)"
+                                    href="/now-playing?watch={{vid.id}}" type="submit" id="btnVtbPlay"
+                                    class="vt-cards__btn btn btn-primary mr-2 d-flex align-items-center">
+                                    <picture>
+                                        <source class="vt-play__icon" srcset="/Resources/vtube/images/vt-play.svg">
+                                        </source>
+                                        <source class="vt-play__icon" srcset="/Resources/vtube/images/vt-play.svg">
+                                        </source><img class="vt-play__icon mr-1"
+                                            src="/Resources/vtube/images/vt-play.svg" alt="play icon" /></picture>
+                                    Play
+                                </a>
+                                <button type="button" ng-if="isLogged" ng-click="addToPlaylist(vid.id, $event)"
+                                    class="btn btn-dark d-flex align-items-center">
+                                    <picture class="pl-1 overlay__icon">
+                                        <source class="vt-addplaylist__icon align-self-center"
+                                            srcset="/Resources/vtube/images/vt-add-to-playlist.svg">
+                                        </source>
+                                        <source class="vt-addplaylist__icon align-self-center"
+                                            srcset="/Resources/vtube/images/vt-add-to-playlist.svg">
+                                        </source><img class="vt-addplaylist__icon align-self-center mr-1"
+                                            src="/Resources/vtube/images/vt-add-to-playlist.svg"
+                                            alt="add to playlist icon" /></picture>
+                                    Playlist
+                                </button></div>
+                            <div>
+                                <p class=" text-muted mb-1">By
+                                    <span id="txtVtbuploader">{{vid.createdBy}}</span>
+                                    <span class="text-muted"> . </span>
+                                    <span id="txtVtbdateUploaded" class="text-muted">{{vid.days}}
+                                    </span></p>
+                            </div>
+                            <div>
+                                <p class="text-muted mb-1"><span id="txtVtbvideoViews">{{vid.views}}</span> Views
+                                    <span class="text-muted"> . </span>
+                                    <span id="txtVtbvideoLikes">{{vid.likes}}</span> Likes
+                                </p>
+                            </div>
+                            <div class="d-flex">
+                                <picture class="d-flex">
+                                    <source srcset="/Resources/vtube/images/vt-available-translations.svg">
+                                    </source>
+                                    <source srcset="/Resources/vtube/images/vt-available-translations.svg">
+                                    </source><img class=" img-fluid w-100"
+                                        src="/Resources/vtube/images/vt-available-translations.svg"
+                                        alt="Likes Placeholder" /></picture>
+                                <span class="text-muted px-1"
+                                    id="txtVtbvideoAvailableTranslations">{{vid.language}}</span>
+                            </div>
+                        </div>
+                        <picture>
+                            <source class="vt-card--image rounded img-fluid" srcset="{{vid.image}}">
+                            </source>
+                            <source class="vt-card--image rounded img-fluid"
+                                srcset="https://via.placeholder.com/273x180">
+                            </source><img class="vt-card--image rounded img-fluid"
+                                src="https://via.placeholder.com/273x180" alt="Card Placeholder" /></picture>
+                    </div>
+                    <div class="text-center vt-card-title">
+                        <p class="mb-1">
+                            <a id="btnVtbPlay"
+                                ng-href="{{checkVideoPrivacy(vid.videoPrivacy, vid.tags) ? '/now-playing?watch=' + vid.id : $event.preventDefault()}}">
+                                <picture ng-if="vid.videoPrivacy == 'private'">
+                                    <source srcset="/Resources/vtube/images/vt-premium-lock.svg">
+                                    </source>
+                                    <source srcset="/Resources/vtube/images/vt-premium-lock.svg">
+                                    </source><img class="vt-cards__locked-icon mr-2 align-text-bottom"
+                                        src="/Resources/vtube/images/vt-premium-lock.svg" alt="premium lock icon" />
+                                </picture>
+                                {{vid.title}}
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Start: Modals-->
+    <!-- Modal -->
+</div>

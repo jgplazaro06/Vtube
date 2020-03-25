@@ -10,7 +10,8 @@ angular.module('vtAppCtrlHeaderOut', ['ngStorage', 'vtAppConstants', 'vtChannelS
         });
 
         $rootScope.chosenLang = '';
-        $rootScope.displayLang = 'ENGLISH'
+        if ($sessionStorage.DISPLAY_LANG) $rootScope.displayLang = $sessionStorage.DISPLAY_LANG
+        else $rootScope.displayLang = 'English'
 
         if ($sessionStorage.AUD == undefined && $sessionStorage.USER_TOKEN == undefined) {
             $localStorage.IS_LOGGED = false;
@@ -26,6 +27,7 @@ angular.module('vtAppCtrlHeaderOut', ['ngStorage', 'vtAppConstants', 'vtChannelS
         $scope.isLogged = $localStorage.IS_LOGGED;
         $scope.userData = $localStorage.USER_DATA;
         $scope.searchWord = {};
+        $scope.languageList = {};
         $scope.logout = function (e) {
 
             e.preventDefault();
@@ -49,9 +51,10 @@ angular.module('vtAppCtrlHeaderOut', ['ngStorage', 'vtAppConstants', 'vtChannelS
         }
 
         $scope.changeLanguage = function (lang, displayLang) {
-            $rootScope.displayLang = displayLang;
+            $sessionStorage.DISPLAY_LANG = displayLang;
             chosenLang = lang;
-            $localStorage.CHOSEN_LANG = lang;
+            if (chosenLang == 'en') chosenLang = ''
+            $sessionStorage.CHOSEN_LANG = lang;
             var checkLang = window.location.pathname.substring(0, 4)
 
             if ((checkLang.match(/\//g) || []).length == 2) {
@@ -82,5 +85,20 @@ angular.module('vtAppCtrlHeaderOut', ['ngStorage', 'vtAppConstants', 'vtChannelS
             // srvc_channel.getFollowing();
         }
 
+        function getLanguages() {
+            console.log()
+
+            requestString = [API.THEV, 'site/language'].filter(Boolean).join('/')
+
+            $http.get(requestString, {
+
+            }).then(function (result) {
+                $scope.languageList = result.data;
+            }, function (error) {
+                console.log(error)
+            })
+        }
+
+        if (Object.keys($scope.languageList).length == 0) getLanguages()
 
     })

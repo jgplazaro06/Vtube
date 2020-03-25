@@ -34,30 +34,26 @@ app.factory('srvc_playVid', function ($localStorage, $sessionStorage, $http, API
 
         },
 
-        'checkVideoPrivacy': function (videoPrivacy) {
+        'checkVideoPrivacy': function (videoPrivacy, tags) {
             isLogged = $localStorage.IS_LOGGED
 
             isPrivate = (videoPrivacy != 'public')
+            isPremium = (tags.indexOf('Premium Video') !== -1)
 
-            if (!isPrivate) {
+            //Non Logged = !isPrivate
+            //logged Free = !isPrivate, isPrivate, !isPremium
+            //logged subscribed = return true
+
+            if (checkUserSub() || !isPrivate) {
                 return true;
-                // window.location.reload()
-                // $state.go('^.now-playing')
-
             }
-            else if (!isLogged && isPrivate) {
-                return false;
-                // loginRequiredModal.modal('show')
-            }
-            else if (isLogged && isPrivate) {
-                if (checkUserSub()) {
-                    return true;
-                    // window.location.reload()
-                    // $state.go('^.now-playing')
-
+            //user is Free || video is private 
+            //
+            else {
+                if (isLogged) {
+                    return true
                 }
                 else {
-                    // loginSubscribedOnly.modal('show')
                     return false;
                 }
             }
@@ -111,7 +107,7 @@ app.factory('srvc_playVid', function ($localStorage, $sessionStorage, $http, API
         'removeFromPlaylist': function (id) {
             requestString = [API.THEV, 'dashboard/playlist/remove', id, $sessionStorage.AUD].filter(Boolean).join('/')
 
-            $http.post(requestString, '',{
+            $http.post(requestString, '', {
                 headers: { 'Authorization': 'Bearer ' + $sessionStorage.USER_TOKEN }
             }).then(function (result) {
                 console.log(result)
@@ -129,7 +125,10 @@ app.factory('srvc_playVid', function ($localStorage, $sessionStorage, $http, API
     }
 
     function checkUserSub() {
-        return ($localStorage.USER_DATA.membership !== "Free")
+        if ($localStorage.USER_DATA)
+            return ($localStorage.USER_DATA.membership !== "Free")
+        else
+            return false;
     }
 
     function loadUserPlaylist() {

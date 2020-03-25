@@ -1,0 +1,268 @@
+<div ng-controller="ctrl_categories">
+    <!--Start: Categories Log Out Section 1-->
+    <section id="Section_categoriesLogOut1" class="vt-categoriesLog1-wrapper vt-background--grey">
+        <div class="d-flex align-items-center vt-background--grey-dark py-5">
+            <div class="container">
+                <div id="crslVtbCategoriesIn" class="vt-carousel__categories owl-carousel owl-theme" role="tablist">
+                    <div class="col-md-auto px-0 mx-md-1 vt-carousel__categories-link active"
+                        id="pVtbCategoryCarouselLink1">
+                        <div class="vt-card-wrapper  mx-auto">
+                            <div class="vt-cards__categories vt-overlay--grey-light" id="Messages"
+                                ng-click="setCategory('Messages')">
+                                <picture class="mx-auto mb-2">
+                                    <source srcset="/Resources/vtube/images/vt-messenger.svg">
+                                    </source>
+                                    <source srcset="/Resources/vtube/images/vt-messenger.svg">
+                                    </source><img src="./Resources/vtube/images/vt-messenger.svg" alt="Points icon" />
+                                </picture>
+                                <span id="txtVtbPoints" class="pl-1">Messages</span>
+                            </div>
+                            <picture>
+                                <source
+                                    srcset="/images/default-source/vtube/vtube-assets/vt-categories-messenger.png?Status=Temp&sfvrsn=92dcc426_2">
+                                </source>
+                                <source srcset="https://via.placeholder.com/273x180">
+                                </source><img class="rounded img-fluid" src="https://via.placeholder.com/273x180"
+                                    alt="Card Placeholder" /></picture>
+                        </div>
+                    </div>
+                    <div class="col-md-auto px-0 mx-md-1 vt-carousel__categories-link" id="pVtbCategoryCarouselLink2">
+                        <div class="vt-card-wrapper mx-auto">
+                            <div class="vt-cards__categories vt-overlay--grey-light" id="PresonalDev"
+                                ng-click="setCategory('Personal Development')">
+                                <picture class="mx-auto mb-2">
+                                    <source srcset="/Resources/vtube/images/vt-self-improvement.svg">
+                                    </source>
+                                    <source srcset="/Resources/vtube/images/vt-self-improvement.svg">
+                                    </source><img src="./Resources/vtube/images/vt-self-improvement.svg"
+                                        alt="Points icon" /></picture>
+                                <span id="txtVtbPoints" class="pl-1">Personal Development</span>
+                            </div>
+                            <picture>
+                                <source
+                                    srcset="/images/default-source/vtube/vtube-assets/vt-categories-selfimprovement.png?Status=Temp&sfvrsn=62eaac13_2">
+                                </source>
+                                <source srcset="https://via.placeholder.com/273x180">
+                                </source><img class="rounded img-fluid" src="https://via.placeholder.com/273x180"
+                                    alt="Card Placeholder" /></picture>
+                        </div>
+                    </div>
+                    <div class="col-md-auto px-0 mx-md-1 vt-carousel__categories-link" id="pVtbCategoryCarouselLink3">
+                        <div class="vt-card-wrapper mx-auto">
+                            <div class="vt-cards__categories vt-overlay--grey-light" id="Ent"
+                                ng-click="setCategory('Entertainment')">
+                                <picture class="mx-auto mb-2">
+                                    <source srcset="/Resources/vtube/images/vt-entertainment.svg">
+                                    </source>
+                                    <source srcset="/Resources/vtube/images/vt-entertainment.svg">
+                                    </source><img src="./Resources/vtube/images/vt-entertainment.svg"
+                                        alt="Points icon" /></picture>
+                                <span id="txtVtbPoints" class="pl-1">Entertainment</span>
+                            </div>
+                            <picture>
+                                <source
+                                    srcset="/images/default-source/vtube/vtube-assets/vt-categories-entertainment.png?Status=Temp&sfvrsn=8152eb14_2">
+                                </source>
+                                <source srcset="https://via.placeholder.com/273x180">
+                                </source><img class="rounded img-fluid" src="https://via.placeholder.com/273x180"
+                                    alt="Card Placeholder" /></picture>
+                        </div>
+                    </div>
+                    <div class="col-md-auto px-0 mx-md-1 vt-carousel__categories-link" id="pVtbCategoryCarouselLink4">
+                        <div class="vt-card-wrapper mx-auto">
+                            <div class="vt-cards__categories vt-overlay--grey-light" id="Buss"
+                                ng-click="setCategory('Business Methods')">
+                                <picture class="mx-auto mb-2">
+                                    <source srcset="/Resources/vtube/images/vt-business.svg">
+                                    </source>
+                                    <source srcset="/Resources/vtube/images/vt-business.svg">
+                                    </source><img src="./Resources/vtube/images/vt-business.svg" alt="Points icon" />
+                                </picture>
+                                <span id="txtVtbPoints" class="pl-1">Business Methods</span>
+                            </div>
+                            <picture>
+                                <source
+                                    srcset="/images/default-source/vtube/vtube-assets/vt-categories-business.png?Status=Temp&sfvrsn=80473719_2">
+                                </source>
+                                <source srcset="https://via.placeholder.com/273x180">
+                                </source><img class="rounded img-fluid" src="https://via.placeholder.com/273x180"
+                                    alt="Card Placeholder" /></picture>
+                        </div>
+                    </div>
+                    <div class="col-md-auto px-0 mx-md-1 vt-carousel__categories-link" id="pVtbCategoryCarouselLink5">
+                        <div class="vt-card-wrapper  mx-auto">
+                            <div class="vt-cards__categories vt-overlay--grey-light" id="Edut"
+                                ng-click="setCategory('Infographics')">
+                                <picture class="mx-auto mb-2">
+                                    <source srcset="/Resources/vtube/images/vt-edutainment.svg">
+                                    </source>
+                                    <source srcset="/Resources/vtube/images/vt-edutainment.svg">
+                                    </source><img src="./Resources/vtube/images/vt-edutainment.svg" alt="Points icon" />
+                                </picture>
+                                <span id="txtVtbPoints" class="pl-1">Edutainment</span>
+                            </div>
+                            <picture>
+                                <source
+                                    srcset="/images/default-source/vtube/vtube-assets/vt-categories-edutainment.png?Status=Temp&sfvrsn=bb6b4_2">
+                                </source>
+                                <source srcset="https://via.placeholder.com/273x180">
+                                </source><img class="rounded img-fluid" src="https://via.placeholder.com/273x180"
+                                    alt="Card Placeholder" /></picture>
+                        </div>
+                    </div>
+                    <!-- <div class="col-md-auto px-0 mx-md-1 vt-carousel__categories-link"
+                            id="pVtbCategoryCarouselLink6">
+                            <div class="vt-card-wrapper  mx-auto">
+                                <div class="vt-cards__categories vt-overlay--grey-light"
+                                    ng-click="setCategory('Testimonials')">
+                                    <picture class="mx-auto mb-2">
+                                        <source srcset="/Resources/vtube/images/vt-foundational-videos.svg">
+                                        <source srcset="/Resources/vtube/images/vt-foundational-videos.svg">
+                                        <img src="./Resources/vtube/images/vt-foundational-videos.svg" alt="Points icon"></picture>
+                                    <span id="txtVtbPoints" class="pl-1">Testimonials</span>
+                                </div>
+                                <picture>
+                                    <source srcset="">
+                                    <source srcset="https://via.placeholder.com/273x180">
+                                    <img class="rounded img-fluid" src="https://via.placeholder.com/273x180"
+                                        alt="Card Placeholder"></picture>
+                            </div>
+                        </div>
+                        <div class="col-md-auto px-0 mx-md-1 vt-carousel__categories-link"
+                            id="pVtbCategoryCarouselLink7">
+                            <div class="vt-card-wrapper  mx-auto">
+                                <div class="vt-cards__categories vt-overlay--grey-light"
+                                    ng-click="setCategory('Film & Animation')">
+                                    <picture class="mx-auto mb-2">
+                                        <source srcset="/Resources/vtube/images/vt-rythm.svg">
+                                        <source srcset="/Resources/vtube/images/vt-rythm.svg">
+                                        <img src="./Resources/vtube/images/vt-rythm.svg" alt="Points icon"></picture>
+                                    <span id="txtVtbPoints" class="pl-1">Film & Animation</span>
+                                </div>
+                                <picture>
+                                    <source srcset="https://via.placeholder.com/273x180">
+                                    <source srcset="https://via.placeholder.com/273x180">
+                                    <img class="rounded img-fluid" src="https://via.placeholder.com/273x180"
+                                        alt="Card Placeholder"></picture>
+                            </div>
+                        </div> -->
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End: Categories Log Out Section 1-->
+    <!--Start: Categories Log Out Section 2-->
+    <section id="Section_categoriesLogOut2" class="vt-categoriesLog2-wrapper vt-background--grey">
+        <div class="d-flex align-items-center vt-background--grey py-5">
+            <div class="container">
+                <div class="row vt-cards d-flex justify-content-center text-light">
+                    <div class="mb-3" ng-repeat="vid in categoryVids">
+                        <div class="vt-card-wrapper col-md-auto px-0 mb-2 mx-1">
+                            <div class="vt-cards__duration vt-background--grey-darker row">
+                                <div class="col p-0">
+                                    <div class="px-2 py-1 d-flex float-left"><span id="txtVtbVideoDuration"
+                                            class="pl-1 small">{{vid.time}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="vt-cards__points vt-background--grey-darker row">
+                                <div class="col p-0">
+                                    <div class="  px-2 py-1 d-flex float-left">
+                                        <picture class="d-flex">
+                                            <source srcset="/Resources/vtube/images/vt-points.svg">
+                                            </source>
+                                            <source srcset="/Resources/vtube/images/vt-points.svg">
+                                            </source><img src="./Resources/vtube/images/vt-points.svg"
+                                                alt="Points icon" /></picture>
+                                        <span id="txtVtbPoints" class="pl-1 small">{{vid.points}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="vt-cards--darker rounded"></div>
+                            <div class="vt-cards__overlay">
+                                <div class="d-flex mb-1">
+                                    <a ng-if="checkVideoPrivacy(vid.videoPrivacy, vid.tags)"
+                                        href="/now-playing?watch={{vid.id}}" type="submit" id="btnVtbPlay"
+                                        class="vt-cards__btn btn btn-primary mr-2 d-flex align-items-center">
+                                        <picture>
+                                            <source class="vt-play__icon" srcset="/Resources/vtube/images/vt-play.svg">
+                                            </source>
+                                            <source class="vt-play__icon" srcset="/Resources/vtube/images/vt-play.svg">
+                                            </source><img class="vt-play__icon mr-1"
+                                                src="./Resources/vtube/images/vt-play.svg" alt="play icon" /></picture>
+                                        Play
+                                    </a>
+                                    <button type="button" ng-if="isLogged" ng-click="addToPlaylist(vid.id, $event)"
+                                        class="btn btn-dark d-flex align-items-center">
+                                        <picture class="pl-1 overlay__icon">
+                                            <source class="vt-addplaylist__icon align-self-center"
+                                                srcset="/Resources/vtube/images/vt-add-to-playlist.svg">
+                                            </source>
+                                            <source class="vt-addplaylist__icon align-self-center"
+                                                srcset="/Resources/vtube/images/vt-add-to-playlist.svg">
+                                            </source><img class="vt-addplaylist__icon align-self-center mr-1"
+                                                src="./Resources/vtube/images/vt-add-to-playlist.svg"
+                                                alt="add to playlist icon" /></picture>
+                                        Playlist
+                                    </button></div>
+                                <div class="text-left">
+                                    <p class=" text-muted mb-0">By
+                                        <span id="txtVtbuploader">{{vid.createdBy}}</span>
+                                        <span class="text-muted"> . </span>
+                                        <span id="txtVtbdateUploaded" class="text-muted">{{vid.days}}
+                                        </span></p>
+                                </div>
+                                <div class="text-left">
+                                    <p class="text-muted mb-1"><span id="txtVtbvideoViews">{{vid.views}}</span> Views
+                                        <span class="text-muted"> . </span>
+                                        <span id="txtVtbvideoLikes">{{vid.likes}}</span> Likes
+                                    </p>
+                                </div>
+                                <div class="text-left d-flex">
+                                    <picture class="d-flex pr-1">
+                                        <source srcset="/Resources/vtube/images/vt-available-translations.svg">
+                                        </source>
+                                        <source srcset="/Resources/vtube/images/vt-available-translations.svg">
+                                        </source><img class="img-fluid w-100"
+                                            src="./Resources/vtube/images/vt-available-translations.svg"
+                                            alt="Likes Placeholder" /></picture>
+                                    <span class="text-muted"
+                                        id="txtVtbvideoAvailableTranslations">{{vid.language}}</span>
+                                </div>
+                            </div>
+                            <picture>
+                                <source class="vt-card--image rounded img-fluid" srcset="{{vid.image}}"
+                                    ng-check-image="">
+                                </source>
+                                <source class="vt-card--image rounded img-fluid"
+                                    srcset="https://via.placeholder.com/273x180">
+                                </source><img class="vt-card--image rounded img-fluid"
+                                    src="https://via.placeholder.com/273x180" alt="Card Placeholder" /></picture>
+                        </div>
+                        <div class="text-center vt-card-title">
+                            <p class="mb-1 vt-card-title">
+                                <a id="btnVtbPlay"
+                                    ng-href="{{checkVideoPrivacy(vid.videoPrivacy, vid.tags) ? '/now-playing?watch=' + vid.id : $event.preventDefault()}}">
+                                    <picture ng-if="vid.videoPrivacy == 'private'">
+                                        <source srcset="/Resources/vtube/images/vt-premium-lock.svg">
+                                        </source>
+                                        <source srcset="/Resources/vtube/images/vt-premium-lock.svg">
+                                        </source><img class="vt-cards__locked-icon mr-2 align-text-bottom"
+                                            src="./Resources/vtube/images/vt-premium-lock.svg"
+                                            alt="premium lock icon" /></picture>
+                                    {{vid.title}}
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center "><button id="btnVtbVideosViewMore" ng-if="enableViewMore"
+                        ng-click="loadMoreVideos($event)" class="btn btn-dark">View
+                        more</button></div>
+            </div>
+        </div>
+    </section>
+    <!--End: Categories Log Out Section 2-->
+</div>
+<!-- ng-href="{{checkVideoPrivacy(vid.videoPrivacy) ? '/now-playing?watch=' + vid.id : $event.preventDefault()}}" -->

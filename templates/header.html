@@ -1,0 +1,152 @@
+<!--Start: Header Log Out Section-->
+
+<div ng-controller="ctrl_HeaderMenu">
+    <div class="vt-background--white vt-navbar-small-wrapper navbar fixed-top px-1 py-0">
+        <div class="container px-0 px-md-3">
+            <div class="vt-header__left-items"><a class="navbar-brand" href="/home"><img class="mr-md-2"
+                        src="/Resources/vtube/images/vt-header-logo.svg" alt="logo" /></a>
+                <div class="navbar-collapse" id="navbarCollapse1">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item dropdown vt-translations-dropdown-wrapper"><a
+                                class="nav-link dropdown-toggle" href="#" id="dropdownVtbtranslation"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{{displayLang}}</a>
+                            <div class=" vt-background--grey-lighter dropdown-menu vt-translations__dropdown"
+                                aria-labelledby="dropdownVtbtranslation">
+                                <div class="container">
+                                    <div class="col-xs-3"><a class="dropdown-item p-0"
+                                            ng-repeat="(key, value) in languageList"
+                                            ng-click="changeLanguage(key, value)">{{value}}</a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="vt-search__btn-container d-none d-md-block"><input type="text" ng-model="searchWord.keyword"
+                    class="form-control input-sm" maxlength="64" placeholder="Search" />
+                <!--<button type="submit" ng-click="search($event)" class="btn btn-primary btn-sm"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24" focusable="false"><circle cx="10.5" cy="10.5" r="7.5"></circle><path d="M21 21l-5.2-5.2"></path></svg>
+ </button> -->
+                <input type="text" ng-model="searchWord.keyword" class="form-control input-sm vt-background--white"
+                    maxlength="64" placeholder="Search.." /><a
+                    ng-href="{{isSearchEmpty() ? $event.preventDefault() : '/search?keyword=' + searchWord.keyword}}"
+                    class="vt-search__btn border-0 h-auto px-0 mt-2"><svg xmlns="http://www.w3.org/2000/svg" width="20"
+                        height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2" class="mx-0" role="img" viewBox="0 0 24 24" focusable="false">
+                        <circle cx="10.5" cy="10.5" r="7.5"></circle>
+                        <path d="M21 21l-5.2-5.2"></path>
+                    </svg>
+                </a><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
+                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img"
+                    viewBox="0 0 24 24" focusable="false">
+                    <circle cx="10.5" cy="10.5" r="7.5"></circle>
+                    <path d="M21 21l-5.2-5.2"></path>
+                </svg>
+            </div><a id="btnVtbLogout" href="http://api.the-v.net/log" class="btn btn-white text-dark border my-2 mr-1"
+                ng-if="!isLogged">LOG IN</a>
+
+
+            <button id="btnVtbLogout" ng-click="logout($event)" class="btn btn-white text-dark border my-2 mr-1"
+                ng-if="isLogged">LOGOUT</button>
+            <ul class="navbar-nav d-none d-sm-block d-md-none">
+                <li class="nav-item dropdown"><a class="nav-link dropdown-toggle vt-search-sm-input" href="/home"
+                        id="btnVtbSearch" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><svg
+                            xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor"
+                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img"
+                            viewBox="0 0 24 24" focusable="false">
+                            <circle cx="10.5" cy="10.5" r="7.5"></circle>
+                            <path d="M21 21l-5.2-5.2"></path>
+                        </svg>
+                    </a>
+                    <div class="vt-background--grey-morelighter dropdown-menu p-0" aria-labelledby="input-Search">
+                        <div class="container-fluid vt-background--grey-lighter">
+                            <div class="row p-3">
+                                <div class="col-12"><input ng-model="searchWord.keyword" type="search"
+                                        class="form-control ds-input" id="inputVtbSearch" placeholder="Search..." />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <!-- <button id="btnVtbUpgrade" class="btn btn-primary mr-1 d-none d-sm-block"
+                        ng-click="toSignUp($event)">SIGN UP</button> -->
+        </div>
+    </div>
+    <nav class="vt-background--blue vt-navbar-big-wrapper navbar navbar-expand-sm navbar-dark fixed-top ">
+        <div class="container">
+            <div class="pl-2 d-none"><span id="navVtbTranslations" class="vt-translatios__menu" data-toggle="collapse"
+                    aria-controls="navbarCollapse" aria-expanded="true">EN <img
+                        src="/Resources/vtube/images/menu-caret.svg" /></span>
+                <!-- Start: Side Bar Languange-->
+                <div id="divVtbSidebarLang" class="vt-sideNav">
+                    <div class="text-center"><a id="linkVtbSidebarLangClose" href="javascript:void(0)"
+                            class="btnClose"></a></div>
+                    <div class="vt-headerMenu__language">
+                        <div class="vt-headerMenu">
+                            <ul class="container pt-4 px-4" id="navVtbUlLang">
+                                <li>
+                                    <p class="vt-sideNav--link font-weight-bold">Languange</p>
+                                </li>
+                                <li ng-repeat="(key, value) in languageList">
+                                    <p><a class="dropdown-item p-0" ng-click="changeLanguage(key, value)">{{value}}</a>
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- End: Mobile Language -->
+            </div>
+            <!-- Start: Mobile Hamburger -->
+
+            <!-- End: Mobile Hamburger -->
+            <form class="form mx-2 d-flex align-items-center d-block d-sm-none"><button
+                    class="navbar-toggler vt-navbar-toggler px-0" type="button" data-toggle="collapse"
+                    data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="true"
+                    aria-label="Toggle navigation"><span style="color:#fff;font-size:25px;">☰</span>
+                </button>
+                <!-- <button id="btnVtbUpgrade1" class="btn btn-primary mr-1 my-2 d-block d-sm-none mx-2">SIGN UP</button> -->
+            </form>
+            <!-- <span id="navVtbHamburger" class="pl-2 vt-hamburger__menu">☰</span> -->
+            <div class="navbar-collapse collapse" id="navbarCollapse">
+                <nav class="navbar px-2 d-block d-sm-none">
+                    <form class="w-100 input-group"><input class="form-control mr-sm-2 m-0" type="search"
+                            ng-model="searchWord.keyword" placeholder="Search" aria-label="Search" /><a type="submit"
+                            ng-href="{{isSearchEmpty() ? $event.preventDefault() : '/search?keyword=' + searchWord.keyword}}"
+                            class="btn btn-primary btn-sm"><svg xmlns="http://www.w3.org/2000/svg" width="20"
+                                height="25" fill="none" stroke="currentColor" stroke-linecap="round"
+                                stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24"
+                                focusable="false">
+                                <circle cx="10.5" cy="10.5" r="7.5"></circle>
+                                <path d="M21 21l-5.2-5.2"></path>
+                            </svg>
+                        </a>
+                    </form>
+                </nav>
+                <ul class="navbar-nav">
+                    <li class="nav-item py-2"><a class="vt-nav--link nav-link py-0 px-sm-0 active" href="/home">HOME</a>
+                    </li>
+                    <li class="nav-item"><a class="vt-nav--link nav-link py-2" href="/videoslist">VIDEOS</a>
+                    </li>
+                    <li class="nav-item dropdown "><a class="vt-nav--link nav-link py-2" href="/premium">PREMIUM</a>
+                    </li>
+                    <li class="nav-item dropdown "><a class="vt-nav--link nav-link py-2"
+                            href="/categories">CATEGORIES</a>
+                    </li>
+                    <li class="nav-item dropdown "><a class="vt-nav--link nav-link py-2 " href="/channels ">CHANNELS</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <nav class="vt-navbar-wrapper navbar navbar-dark fixed-top vt-header--bg d-none ">
+        <div class="container ">
+            <div id="divVtbBgDarker " class="modal vt-overlay__bg "></div>
+        </div>
+    </nav>
+</div>
+<!--End: Header Log Out Section-->
+
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
