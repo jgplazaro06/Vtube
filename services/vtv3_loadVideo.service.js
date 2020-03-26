@@ -6,7 +6,7 @@ app.factory('srvc_loadVid', function ($localStorage, $sessionStorage, $http, API
         'loadVideo': function (videoType, count, page) {
             toBeLoaded = checkVideoType(videoType)
 
-            var currentLang = $localStorage.CHOSEN_LANG
+            var currentLang = $sessionStorage.CHOSEN_LANG
             if (!currentLang) currentLang = 'en'
 
             requestString = [API.THEV, 'Video', toBeLoaded, currentLang, page, count, $sessionStorage.AUD].filter(Boolean).join('/')
@@ -24,7 +24,7 @@ app.factory('srvc_loadVid', function ($localStorage, $sessionStorage, $http, API
         },
 
         'loadRelatedVideos': function (id, count, page) {
-            var currentLang = $localStorage.CHOSEN_LANG
+            var currentLang = $sessionStorage.CHOSEN_LANG
             if (!currentLang) currentLang = 'en'
 
             requestString = [API.THEV, 'Video/related', id, currentLang, page, count, $sessionStorage.AUD].filter(Boolean).join('/')
@@ -42,7 +42,7 @@ app.factory('srvc_loadVid', function ($localStorage, $sessionStorage, $http, API
 
         'loadCategoryVideo': function (category, count, page) {
 
-            var currentLang = $localStorage.CHOSEN_LANG
+            var currentLang = $sessionStorage.CHOSEN_LANG
             if (!currentLang) currentLang = 'en'
 
             requestString = [API.THEV, 'Video/category', category, currentLang, page, count, $sessionStorage.AUD].filter(Boolean).join('/')
@@ -60,7 +60,7 @@ app.factory('srvc_loadVid', function ($localStorage, $sessionStorage, $http, API
 
         'loadVideoByTag': function (tag, count, page) {
 
-            var currentLang = $localStorage.CHOSEN_LANG
+            var currentLang = $sessionStorage.CHOSEN_LANG
             if (!currentLang) currentLang = 'en'
 
             requestString = [API.THEV, 'Video/tag', tag, currentLang, page, count, $sessionStorage.AUD].filter(Boolean).join('/')

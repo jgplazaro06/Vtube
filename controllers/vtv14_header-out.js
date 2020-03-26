@@ -1,12 +1,18 @@
-angular.module('vtAppCtrlHeaderOut', ['ngStorage', 'vtAppConstants', 'vtChannelService', 'vtPlayVidService'])
+angular.module('vtAppCtrlHeaderOut', ['ngStorage', 'vtAppConstants', 'vtChannelService',
+    'vtPlayVidService', 'vtLoadVideosService'])
 
     .controller("ctrl_HeaderMenu", function ($scope, $rootScope, $localStorage, $sessionStorage, API,
-        $http, srvc_channel, srvc_playVid) {
+        $http, srvc_channel, srvc_playVid, srvc_loadVid) {
 
         $scope.$watch(function () { return $localStorage.IS_LOGGED; }, function (newVal, oldVal) {
             $scope.isLogged = newVal;
             $scope.userData = $localStorage.USER_DATA;
-            srvc_playVid.loadPlaylist();
+
+            if (newVal) {
+                srvc_channel.getFollowing();
+                srvc_playVid.loadPlaylist();
+                getDisplays()
+            }
         });
 
         $rootScope.chosenLang = '';
@@ -28,6 +34,43 @@ angular.module('vtAppCtrlHeaderOut', ['ngStorage', 'vtAppConstants', 'vtChannelS
         $scope.userData = $localStorage.USER_DATA;
         $scope.searchWord = {};
         $scope.languageList = {};
+        videosSection = [
+            { category: 'Latest', content: [] },
+            { category: 'Recommended', content: [] },
+            { category: 'Viewed', content: [] },
+            { category: 'Latest', content: [] }, //hot
+            { category: 'Viewed', content: [] } //high rated
+        ]
+
+        premiumSection = [
+            { category: 'Latest', content: [] },
+            { category: 'Recommended', content: [] },
+            { category: 'Viewed', content: [] },
+            { category: 'Latest', content: [] }, //hot
+            { category: 'Viewed', content: [] } //high rated
+        ]
+
+        categoriesSection = [
+            { category: 'Messages', content: [] },
+            { category: 'Personal Development', content: [] },
+            { category: 'Entertainment', content: [] },
+            { category: 'Business Methods', content: [] },
+            { category: 'Infographics', content: [] }
+        ]
+
+        channelsSection = [
+            { category: 'Latest', content: [] },
+            { category: 'All', content: [] },
+            { category: 'Viewed', content: [] },
+            { category: 'User', content: [] }
+        ]
+
+        $scope.displayVideos = {};
+        $scope.displayPremium = {};
+        $scope.displayCategories = {};
+        $scope.displayChannels = {};
+
+
         $scope.logout = function (e) {
 
             e.preventDefault();
@@ -66,6 +109,20 @@ angular.module('vtAppCtrlHeaderOut', ['ngStorage', 'vtAppConstants', 'vtChannelS
             }
         }
 
+        $scope.navigate = function (path) {
+            chosenLang = $sessionStorage.CHOSEN_LANG
+            if (chosenLang == 'en') chosenLang = ''
+
+            newPath = [chosenLang, path].filter(Boolean).join('/')
+            newPath = newPath.toString();
+            window.location.pathname = newPath;
+
+        }
+
+        $scope.changeDisplayVideo = function (category) {
+
+        }
+
         function getUserDetails() {
             var aud = $sessionStorage.AUD
             var authToken = $sessionStorage.USER_TOKEN
@@ -82,7 +139,7 @@ angular.module('vtAppCtrlHeaderOut', ['ngStorage', 'vtAppConstants', 'vtChannelS
                 console.log(error)
             })
 
-            // srvc_channel.getFollowing();
+
         }
 
         function getLanguages() {
@@ -98,6 +155,47 @@ angular.module('vtAppCtrlHeaderOut', ['ngStorage', 'vtAppConstants', 'vtChannelS
                 console.log(error)
             })
         }
+
+        function getDisplays() {
+            videosSection.forEach(element => {
+                srvc_loadVid.loadVideo(element.category, 6, 1).then(function (result) {
+                    element.content = result.data;
+                })
+            })
+
+            categoriesSection.forEach(element => {
+                if (element.category != 'Infographics') {
+                    srvc_loadVid.loadCategoryVideo(element.category, 9, 1).then(function (result) {
+                        element.content = result.data
+                    }, function (error) {
+                        console.log(error)
+                    })
+                }
+                else {
+                    srvc_loadVid.loadVideoByTag(element.category, 9, 1).then(function (result) {
+                        element.content = result.data
+                    }, function (error) {
+                        console.log(error)
+                    })
+
+                }
+            })
+
+            channelsSection.forEach(element => {
+                if (element.category != 'User') {
+                    srvc_channel.loadChannels(element.category, 6, 1).then(function (result) {
+                        element.content = result.data
+                    }, function (error) {
+                        console.log(error)
+                    })
+                }
+                else {
+                    element.content = $localStorage.FOLLOWED_CHANNELS;
+                }
+            })
+        }
+
+
 
         if (Object.keys($scope.languageList).length == 0) getLanguages()
 
