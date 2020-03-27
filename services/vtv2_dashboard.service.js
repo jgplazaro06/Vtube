@@ -4,7 +4,7 @@ angular.module('vtAppServiceDashboard', ['vtAppConstants'])
 
         isLogged = $localStorage.IS_LOGGED
         var $ = jQuery;
-        
+
         var channelExist = false;
         var inboxItem = [];
         return {
@@ -15,6 +15,14 @@ angular.module('vtAppServiceDashboard', ['vtAppConstants'])
                 return $http.get(requestString, {
                     headers: { 'Authorization': 'Bearer ' + $sessionStorage.USER_TOKEN }
                 })
+            },
+
+            'getUserInformation': function(){
+                getUserChannel();
+                getUserPointHistory();
+                getUserInbox();
+                getUserVideos();
+                getFollowerRequest()
             },
 
             'createChannel': function (channel) {
@@ -38,7 +46,6 @@ angular.module('vtAppServiceDashboard', ['vtAppConstants'])
 
             },
             'deleteChannel': function (id) {
-
                 userId = $localStorage.USER_DATA.id;
 
                 var encodedString = 'action=' + encodeURIComponent('DDrupal_channel_remove') + "&id="
@@ -230,6 +237,116 @@ angular.module('vtAppServiceDashboard', ['vtAppConstants'])
                 getEditVideo();
             }
 
+        }
+
+        function getUserChannel() {
+
+            requestString = [API.THEV, 'Dashboard/channel/list', $sessionStorage.AUD].filter(Boolean).join('/')
+            $http.get(requestString, {
+                headers: { 'Authorization': 'Bearer ' + $sessionStorage.USER_TOKEN }
+            }).then(function (result) {
+                if (result.data.length > 0) {
+                    $localStorage.USER_CHANNEL = result.data[0];
+                    $scope.userChannel = $localStorage.USER_CHANNEL;
+                } else {
+                    $localStorage.USER_CHANNEL = null;
+                    $scope.userChannel = $localStorage.USER_CHANNEL;
+                }
+
+                getDashboardProfile()
+
+            }, function (error) {
+                console.log(error)
+            })
+
+        }
+
+        function getFollowerRequest() {
+            userId = $scope.userData.id;
+
+            // Drupal_UserFollowerRequest
+            var encodedString = 'action=' + encodeURIComponent('DDrupal_UserFollowerRequest') + "&userid="
+                + encodeURIComponent(userId);
+
+            $http({
+                method: 'POST',
+                url: API.URL,
+                data: encodedString,
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            }).then(function (result) {
+                $scope.followerRequests = result.data;
+                $scope.followerRequests.forEach(element => {
+                    element.image = 'http://site.the-v.net' + element.image
+                })
+            }, function (error) {
+                console.log(error)
+            })
+        }
+
+        function getUserPointHistory() {
+            userId = $scope.userData.id;
+            var encodedString = 'action=' + encodeURIComponent('DDrupal_User_point_history') + "&userid="
+                + encodeURIComponent(userId);
+
+            $http({
+                method: 'POST',
+                url: API.URL,
+                data: encodedString,
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            }).then(function (result) {
+                // sanitizePoints = result.data;
+                // sanitizePoints = sanitizePoints.replace(/[\u{0080}-\u{FFFF}]/gu, '')
+                // /[^\x00-\xFF]/g
+                // sanitizePoints = sanitizePoints.replace(//gu, "")
+                // sanitizePoints = sanitizePoints.replace(/"	Tobing "/g, "")
+                // 
+                // console.log(sanitizePoints)
+                // angular.fromJson(sanitizePoints)
+            }, function (error) {
+                console.log(error)
+            })
+        }
+
+        function getUserInbox() {
+            userId = $scope.userData.id;
+
+            var encodedString = 'action=' + encodeURIComponent('DDrupal_User_inbox') + "&userid="
+                + encodeURIComponent(userId);
+
+            $http({
+                method: 'POST',
+                url: API.URL,
+                data: encodedString,
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            }).then(function (result) {
+                // angular.fromJson(result.data)
+                $scope.userInbox = result.data;
+
+            }, function (error) {
+                console.log(error)
+            })
+        }
+
+        function getUserVideos() {
+            userId = $localStorage.USER_DATA.id;
+
+            srvc_getDetails.getDetails('User_Videos', userId).then(function (result) {
+                if (result.data.length > 0) {
+                    $localStorage.USER_VIDEOS = result.data;
+                    $scope.userVideos = $localStorage.USER_VIDEOS;
+                    $scope.userVideos.forEach(element => {
+                        element.image = 'http://site.the-v.net' + element.image
+                    })
+                } else {
+                    $localStorage.USER_VIDEOS = null;
+                    $scope.userVideos = $localStorage.USER_VIDEOS;
+                }
+
+                getDashboardProfile()
+
+            }, function (error) {
+                console.log(error)
+            })
         }
 
         function getInboxMessage() {

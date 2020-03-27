@@ -6,14 +6,18 @@ angular.module('vtAppCtrlHeaderOut', ['ngStorage', 'vtAppConstants', 'vtChannelS
 
         $scope.$watch(function () { return $localStorage.IS_LOGGED; }, function (newVal, oldVal) {
             $scope.isLogged = newVal;
-            $scope.userData = $localStorage.USER_DATA;
-
+            if (newVal) {
+                $scope.userData = $localStorage.USER_DATA;
+                $scope.fullName = $localStorage.USER_DATA.first_name + " " + $localStorage.USER_DATA.last_name;
+                $scope.imageUser = 'http://site.the-v.net/Widgets_Site/avatar.ashx?id=' + $localStorage.USER_DATA.id;
+            }
             var paramToken = new URLSearchParams(window.location.search)
             if (!paramToken.has('token') && !paramToken.has('aud') && !sessionStorage.NEW_LOGGED) {
-                getDisplays();
+
                 if ($localStorage.FOLLOWED_CHANNELS == undefined && $scope.isLogged) srvc_channel.getFollowing();
                 if ($localStorage.PLAYLIST == undefined && $scope.isLogged) srvc_playVid.loadPlaylist();
-                if ($localStorage.FOLLOWED_CHANNELS) getUserFollowed();
+                getDisplays();
+
                 $sessionStorage.NEW_LOGGED = true;
             }
 
@@ -262,6 +266,9 @@ angular.module('vtAppCtrlHeaderOut', ['ngStorage', 'vtAppConstants', 'vtChannelS
                         console.log(error)
                     })
                 }
+                else {
+                    getUserFollowed()
+                }
             })
 
         }
@@ -273,6 +280,7 @@ angular.module('vtAppCtrlHeaderOut', ['ngStorage', 'vtAppConstants', 'vtChannelS
             userFollowed.forEach(row => {
                 srvc_channel.getDetailsOf(row.channel_id).then(function (result) {
                     correctImageLink(result.data)
+                    console.log($sessionStorage.channelsSection[3].content)
                     $sessionStorage.channelsSection[3].content = $sessionStorage.channelsSection[3].content.concat(result.data)
 
                 }, function (error) {

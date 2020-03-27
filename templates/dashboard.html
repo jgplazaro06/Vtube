@@ -1,0 +1,1231 @@
+<!--Start: Header Log Out Section-->
+
+
+<!--Start: Dashboard Log in Section 1-->
+<div ng-controller="ctrl_dashboard">
+    <section id="Section_dashboardLogIn1" class="vt-dashboardLog2-wrapper vt-background--grey">
+        <div class="container py-3">
+            <div class="d-flex text-light pb-3">
+                <h4 class="pr-2">Dashboard</h4>
+            </div>
+            <div class="row vt-cards d-flex justify-content-center text-light">
+                <div class="col-md-4 p-md-0">
+                    <div class="vt-background--grey-light p-4 d-flex justify-content-center vt-section1-col1">
+                        <div class="col-xs-3 mr-2">
+                            <picture>
+                                <source srcset="{{imageUser}}">
+                                <source srcset="https://via.placeholder.com/150">
+                                <img class="rounded img-fluid rounded-circle" src="https://via.placeholder.com/150"
+                                    alt="Picture Placeholder">
+                            </picture>
+                        </div>
+                        <div class="col-xs-3 d-flex align-items-center">
+                            <div>
+                                <h3>{{fullName}}</h3>
+                                <p>{{userData.joinDate}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 row text-center">
+                    <div class="col-sm-6 p-0">
+                        <div class="vt-background--white p-4">
+                            <h3>{{userData.membership}}</h3>
+                            <p class="text-muted m-0">Membership</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 p-0">
+                        <div class="vt-background--grey-lighter p-4">
+                            <h3>{{userData.membershipExpiry}}</h3>
+                            <p class="text-muted m-0">Expiration</p>
+                        </div>
+                    </div>
+                    <div class="col-md-12 p-0">
+                        <div class="vt-background--blue p-4">
+                            <h3>Current Points</h3>
+                            <p class="m-0">{{userData.points}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End: Dashboard Log in Section 1-->
+    <!--Start: Dashboard Log in Section 2-->
+    <section id="Section_dashboardLogIn1" class="vt-dashboardLog2-wrapper vt-background--grey">
+        <div class="container">
+            <div class="mt-3">
+                <ul id="DashboardTab" class="nav nav-fill mb-3 vt-dashboard-menu border-0" role="tablist">
+                    <li class="nav-item dropdown pr-md-1">
+                        <a href="#" id="linkVtbProfileDropdown"
+                            class="nav-link dropdown-toggle vt-dashboard--nav-link px-2 py-3 show"
+                            data-toggle="dropdown" aria-controls="myTabDrop1-contents">
+                            <picture>
+                                <source srcset="/Resources/vtube/images/profile-icon.svg">
+                                <source srcset="/Resources/vtube/images/profile-icon.svg">
+                                <img class="img-fluid" src="/Resources/vtube/images/profile-icon.svg"
+                                    alt="Picture Placeholder">
+                            </picture>
+                            <span class="text d-none d-md-inline-block">PROFILE</span>
+                            <span class="caret">
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu rounded-0 vt-background--grey-lighter" role="menu"
+                            aria-labelledby="myTabDrop1" id="myTabDrop1-contents">
+                            <li class="dropdown-item">
+                                <a href="#pillsVtbProfile" tabindex="-1" role="tab" id="linkVtbProfile"
+                                    data-toggle="tab" aria-controls="dropdown1">
+                                    Profile
+                                </a>
+                            </li>
+                            <li class="dropdown-item">
+                                <a href="#pillsVtbChangePassword" tabindex="-1" role="tab" id="linkVtbChangePassword"
+                                    data-toggle="tab" aria-controls="dropdown1">
+                                    Change Password
+                                </a>
+                            </li>
+                            <li class="dropdown-item">
+                                <a href="#pillsVtbBillingInformation" tabindex="-1" role="tab"
+                                    id="linkVtbBillingInformation" data-toggle="tab" aria-controls="dropdown2">
+                                    Billing Information
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown pr-md-1" id="linkVtbPointsMychannelDropdown">
+                        <a href="#pillsVtbChannel" id="linkVtbMychannelDropdown"
+                            class="nav-link dropdown-toggle vt-dashboard--nav-link px-2 py-3" data-toggle="dropdown"
+                            aria-controls="myTabDrop1-contents">
+                            <picture>
+                                <source srcset="/Resources/vtube/images/channel-icon.svg">
+                                <source srcset="/Resources/vtube/images/channel-icon.svg">
+                                <img class="img-fluid" src="/Resources/vtube/images/channel-icon.svg"
+                                    alt="Picture Placeholder">
+                            </picture>
+                            <span class="d-none  d-md-inline-block">MY CHANNEL</span>
+                            <span class="caret">
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu rounded-0 vt-background--grey-lighter" id="myTabDrop1-contents">
+                            <li class="dropdown-item">
+                                <a href="#pillsVtbUploadVideo" tabindex="-1" role="tab" id="linkVtbUploadVideo"
+                                    data-toggle="tab" aria-controls="dropdown1"
+                                    ng-click="clearInformation($event, videoDetails)">
+                                    Upload Video
+                                </a>
+                            </li>
+                            <li class="dropdown-item">
+                                <a tabindex="-1" role="tab" id="linkVtbMyChannel" data-toggle="tab"
+                                    aria-controls="dropdown2">
+                                    My Channel
+                                </a>
+                            </li>
+                            <li class="dropdown-item">
+                                <a href="#pillsVtbMyVideos" tabindex="-1" role="tab" id="linkVtbMyVideos"
+                                    data-toggle="tab" aria-controls="dropdown1">
+                                    My Videos
+                                </a>
+                            </li>
+                            <li class="dropdown-item">
+                                <a href="#pillsVtbFollowers" tabindex="-1" role="tab" id="linkVtbFollowers"
+                                    data-toggle="tab" aria-controls="dropdown2">
+                                    Followers
+                                </a>
+                            </li>
+                            <li class="dropdown-item">
+                                <a href="#pillsVtbFollowing" tabindex="-1" role="tab" id="linkVtbFollowing"
+                                    data-toggle="tab" aria-controls="dropdown2">
+                                    Following
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item pr-md-1">
+                        <a class="nav-link vt-dashboard--nav-link px-2 py-3" href="#pillsVtbPoints" id="linkVtbPoints"
+                            role="tab" data-toggle="tab">
+                            <picture>
+                                <source srcset="/Resources/vtube/images/points-icon.svg">
+                                <source srcset="/Resources/vtube/images/points-icon.svg">
+                                <img class="img-fluid mr-1" src="/Resources/vtube/images/points-icon.svg"
+                                    alt="Picture Placeholder">
+                            </picture>
+                            <span class="d-none d-md-inline-block">POINTS</span>
+                        </a>
+                    </li>
+                    <li class="nav-item pr-md-1">
+                        <a class="nav-link vt-dashboard--nav-link px-2 py-3" href="#pillsVtbPlaylist"
+                            id="linkVtbPlaylist" role="tab" data-toggle="tab">
+                            <picture>
+                                <source srcset="/Resources/vtube/images/playlist-icon.svg">
+                                <source srcset="/Resources/vtube/images/playlist-icon.svg">
+                                <img class="img-fluid mr-1" src="/Resources/vtube/images/playlist-icon.svg"
+                                    alt="Picture Placeholder">
+                            </picture>
+                            <span class="d-none d-md-inline-block">MY PLAYLIST</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link vt-dashboard--nav-link px-2 py-3" href="#pillsVtbInbox" id="linkVtbInbox"
+                            role="tab" data-toggle="tab">
+                            <picture>
+                                <source srcset="/Resources/vtube/images/inbox-icon.svg">
+                                <source srcset="/Resources/vtube/images/inbox-icon.svg">
+                                <img class="img-fluid mr-1" src="/Resources/vtube/images/inbox-icon.svg"
+                                    alt="Picture Placeholder">
+                            </picture>
+                            <span class="d-none d-md-inline-block">INBOX</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="dashboard-custom-container container mb-3">
+            <div class="tab-content vt-background--grey-light p-4" id="myTabContent">
+                <div class="vt-profile-content show active" id="pillsVtbProfile">
+                    <h4 class="mb-3">Personal Information</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="mb-2"><strong>Upload File Photo</strong></p>
+                            <button id="btnVtbUpdatePhoto" class="btn btn-primary mr-1 d-none d-sm-block"><input
+                                    type="file" class="custom-file-input vt-custom-file-input " accept=".jpg, .png"
+                                    file-model="myAvatar">Select File</button>
+                            <p>Note: Selected file will be automatically uploaded as your avatar.</p>
+
+                            <p class="mb-0"><strong>Name:</strong></p>
+                            <p id="txtVtbFullName">{{fullName}}</p>
+
+                            <p class="mb-0"><strong>IR ID:</strong></p>
+                            <p id="txtVtbIRID">{{userData.irid}}</p>
+
+                            <p class="mb-0"><strong>Password: </strong><a id="btnVtbChangPassword"
+                                    ng-click="showChangePassword()">Change Password?</a></p>
+                            <p>******</p>
+
+                            <p class="mb-0"><strong>Birthday:</strong></p>
+                            <p id="txtVtbBirthday">{{birthday}}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-0"><strong>Email:</strong></p>
+                            <p id="txtVtbEmail">{{userData.email}}</p>
+
+                            <p class="mb-0"><strong>Account Type:</strong></p>
+                            <p id="txtVtbAccountType">{{userData.membership}}</p>
+
+                            <p class="mb-0"><strong>Days Left:</strong></p>
+                            <p id="txtVtbDaysLeft">{{daysLeft}}</p>
+
+                            <p class="mb-0"><strong>Expirataion Date:</strong></p>
+                            <p id="txtVtbExpirationDate">{{userData.membershipExpiry}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="vt-change-password-content" id="pillsVtbChangePassword">
+                    <h4 class="mb-3">Change Password</h4>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form class="needs-validation" novalidate="">
+                                <div class="row">
+                                    <div class="form-group col-md-6 mb-0">
+                                        <input type="email" class="form-control" id="btnVtbChangePasswordEmail"
+                                            placeholder="Email Address" required="">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">The Email required!</div>
+                                    </div>
+                                    <div class="form-group text-center col-md-6 mb-0">
+                                        <input type="password" class="form-control" id="btnVtbChangePasswordOldPassword"
+                                            placeholder="Old Password" required="" minlength="6">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">The Old Password is required!</div>
+                                    </div>
+                                    <div class="form-group text-center col-md-6 mb-0">
+                                        <input type="password" class="form-control" id="btnVtbChangePasswordNewPassword"
+                                            placeholder="New Password" required="" minlength="6">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">The New Password is required!</div>
+                                    </div>
+                                    <div class="form-group text-center col-md-6 mb-0">
+                                        <input type="password" class="form-control" id="btnVtbChangePasswordRetype"
+                                            placeholder="Re-Type Password" required="" minlength="6">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">The Password Should be match is required!</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary"
+                                        id="btnVtbChangePasswordSubmit">Submit</button>
+                                    <button type="submit" class="btn btn-info"
+                                        id="btnVtbChangePasswordCancel">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="vt-billing-information-content" id="pillsVtbBillingInformation">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form class="needs-validation " novalidate="">
+                                <div class="row">
+                                    <div class="form-group  col-md-6">
+
+                                        <h4 id="txtVtbDashboardTitle" class="mb-3">Billing Information</h4>
+                                        <input ng-model="billingInformation.address1" type="texttrol mb-0"
+                                            class="form-control mb-0" id="inputVtbBillingInformationBillingAddress"
+                                            placeholder="Billing Address" required="" minlength="6">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">The Billing Information is required!</div>
+                                        <p class="text-muted" id="inputVtbBillingInformationBillingAddressNote">Please
+                                            Provide your Billing Address</p>
+
+                                        <input ng-model="billingInformation.city" type="text" class="form-control mb-0"
+                                            id="inputVtbBillingInformationTownCity" placeholder="Town/City" required=""
+                                            minlength="6">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">The Town/City is required!</div>
+                                        <p class="text-muted" id="inputVtbBillingInformationTownCityNote">Please
+                                            Provide your Billing Town or City
+                                        </p>
+
+                                        <input ng-model="billingInformation.state_region" type="text"
+                                            class="form-control mb-0" id="inputVtbBillingInformationProvinceState"
+                                            placeholder="Province/State" required="" minlength="6">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">The Province/State is required!</div>
+                                        <p class="text-muted" id="inputVtbBillingInformationProvinceStateNote">Lorem
+                                            Ipsum</p>
+
+                                        <input ng-model="billingInformation.postal_code" type="text"
+                                            class="form-control mb-0" id="inputVtbBillingInformationPostalCode"
+                                            placeholder="Postal Code" required="" minlength="6">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">The Postal Code is required!</div>
+                                        <p class="text-muted" id="inputVtbBillingInformationPostalCodeNote">Lorem Ipsum
+                                        </p>
+
+                                        <input ng-model="billingInformation.phone_number" type="text"
+                                            class="form-control mb-0" id="inputVtbBillingInformationPhoneNumber"
+                                            placeholder="Phone Number" required="" minlength="6">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">The Phone Number is required!</div>
+                                        <p class="text-muted" id="inputVtbBillingInformationPhoneNumberNote">Lorem Ipsum
+                                        </p>
+
+                                        <input ng-model="billingInformation.email" type="text" class="form-control mb-0"
+                                            id="inputVtbBillingInformationEmail" placeholder="Email" required=""
+                                            minlength="6">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">The Email is required!</div>
+
+                                        <input ng-model="billingInformation.country" type="text"
+                                            class="form-control mb-0" id="inputVtbBillingInformationCountry"
+                                            placeholder="Country" required="" minlength="6">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">The Country is required!</div>
+                                    </div>
+                                    <div class="form-group  col-md-6">
+                                        <h4 class="mb-3">Shipping Information</h4>
+
+                                        <div class="form-check form-check-inline">
+                                            <input ng-change="copyToShipping()" ng-model="sameAsBilling"
+                                                class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                id="inputVtbShippingInformationOption1" value='true'>
+                                            <label id="inputVtbShippingInformationRadio1" class="form-check-label"
+                                                for="inlineRadio1">Lorem Ipsum</label>
+                                        </div>
+
+                                        <input ng-model="billingInformation.shipping_address1" type="text"
+                                            class="form-control mb-0" id="inputVtbShippingInformationShippingAddress"
+                                            placeholder="Shipping Address" required="" minlength="6">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">The Shipping Address is required!</div>
+                                        <p class="text-muted">Lorem Ipsum</p>
+
+                                        <input ng-model="billingInformation.shipping_city" type="text"
+                                            class="form-control mb-0" id="inputVtbShippingInformationTownCity"
+                                            placeholder="Town/City" required="" minlength="6">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">The Town/City is required!</div>
+                                        <p class="text-muted">Lorem Ipsum</p>
+
+                                        <input ng-model="billingInformation.shipping_state_region" type="text"
+                                            class="form-control mb-0" id="inputVtbShippingInformationProvinceState"
+                                            placeholder="Province/State" required="" minlength="6">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">The Province/State is required!</div>
+                                        <p class="text-muted">Lorem Ipsum</p>
+
+                                        <input ng-model="billingInformation.shipping_postal_code" type="text"
+                                            class="form-control mb-0" id="inputVtbShippingInformationPostalCode"
+                                            placeholder="Postal Code" required="" minlength="6">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">The Postal Code is required!</div>
+                                        <p class="text-muted">Lorem Ipsum</p>
+
+                                        <input ng-model="billingInformation.shipping_country" type="text"
+                                            class="form-control mb-0" id="inputVtbShippingInformationCountry"
+                                            placeholder="Country" required="" minlength="6">
+                                        <div class="valid-feedback">Looks good!</div>
+                                        <div class="invalid-feedback">The Country is required!</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" ng-click="submitBillingInformation($event)"
+                                        class="btn btn-primary" id="btnVtbBillingInformationSubmit">Submit</button>
+                                    <button type="submit"
+                                        ng-click="clearInformation($event, billingInformation); inlineRadioOptions=null"
+                                        class="btn btn-info" id="btnVtbBillingInformationCancel">Cancel</button>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="vt-my-channel-content" id="pillsVtbMyChannel">
+                    <h4 id="txtVtbDashboardTitle" class="mb-3">No Channel</h4>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button id="btnVtbCreateChannel" ng-click="getCreateChannel()"
+                                class="btn btn-primary mr-1">Create Channel</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="vt-create-channel-content" id="pillsVtbCreateChannel" role="tabpanel">
+                    <h4 id="txtVtbDashboardTitle" class="mb-3">{{(userChannel == null) ? "CREATE" : "EDIT"}} CHANNEL
+                    </h4>
+                    <form name="channelForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <!-- <label id="lblVtbCreateChannelSelectFile" class="mb-3"><strong>LOREM
+                                        IPSUM</strong></label>
+                                <div class="col-md-12 p-0">
+                                    <button id="btnVtbCreateChannelSelectFile"
+                                        class="btn btn-primary mr-1 d-none d-sm-block"><input type="file"
+                                            class="custom-file-input vt-custom-file-input ">Select File</button>
+                                </div>
+                                <small id="txtVtbCreateChannelSelectFileNote" class="form-text text-muted">Lorem
+                                    Ipsum.</small> -->
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="btnVtbCreateChannelName"
+                                        name="channelName" placeholder="Channel Name" input-regex
+                                        ng-model="channelDetails.name" required>
+                                    <div class="valid-feedback">Looks good!</div>
+                                    <div class="invalid-feedback">The Title required!</div>
+                                </div>
+                                <div class="form-group">
+                                    <textarea class="form-control" id="inputVtbCreateChannelDescription" rows="3"
+                                        placeholder="Description" ng-model="channelDetails.description"
+                                        input-regex></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <select class="custom-select my-1 mr-sm-2" id="selectVtbCreateChannelCategory">
+                                        <option value="ISB">ISB</option>
+                                        <option value="Empty Your Cup">Empty Your Cup</option>
+                                        <option value="I am Pro Networker">I am Pro Networker</option>
+                                        <option value="Dreamer">Dreamer</option>
+                                        <option value="VTube+">VTube+</option>
+                                        <option value="Find Your Two">Find Your Two</option>
+                                        <option value="The V">The V</option>
+                                        <option value="QNET Q10">QNET Q10</option>
+                                    </select>
+                                    <small id="txtVtbCreateChannelTagsHelp" class="form-text text-muted">Channel
+                                        Cover.</small>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label id="lblVtbCreateChannelPublishSettings" class="mb-3"><strong>Publish
+                                                Settings</strong></label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" ng-model="channelDetails.accesstype"
+                                                type="radio" name="CreateChannelPublishSettings"
+                                                id="inputVtbCreateChannelPublishSettings1" value="public">
+                                            <label class="form-check-label" for="inputVtbCreateChannelPublishSettings1">
+                                                Public
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" ng-model="channelDetails.accesstype"
+                                                type="radio" name="CreateChannelPublishSettings"
+                                                id="inputVtbCreateChannelPublishSettings2" value="private">
+                                            <label class="form-check-label" for="inputVtbCreateChannelPublishSettings2">
+                                                Private
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label id="lblVtbCreateChannelAllowComments" class="mb-3"><strong>Allow
+                                                Comments</strong></label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio"
+                                                ng-model="channelDetails.cancomment" name="CreateChannelAllowComments"
+                                                id="inputVtbCreateChannelAllowComments1" value="1">
+                                            <label class="form-check-label" for="inputVtbCreateChannelAllowComments1">
+                                                Yes
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio"
+                                                ng-model="channelDetails.cancomment" name="CreateChannelAllowComments"
+                                                id="inputVtbCreateChannelAllowComments2" value="0">
+                                            <label class="form-check-label" for="inputVtbCreateChannelAllowComments2">
+                                                No
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 form-group">
+                                <button type="submit" class="btn btn-primary" ng-click="createChannel()"
+                                    id="btnVtbCreateChannelSubmit">Submit</button>
+                                <button type="reset" class="btn btn-primary"
+                                    id="btnVtbCreateChannelCancel">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="vt-manage-channel-content" id="pillsVtbManageChannel">
+                    <h4 id="txtVtbDashboardTitle" class="mb-3">Manage Channel</h4>
+                    <div class="d-flex p-3 border border-white text-center">
+                        <div class="col-sm-4">
+                            <p>Followers</p>
+                            <h1 class="display-4"><strong>{{userChannel.followers}}</strong></h1>
+                        </div>
+                        <div class="col-sm-4 border border-top-0 border-bottom-0">
+                            <p>Following</p>
+                            <h1 class="display-4"><strong>{{followedChannels.length}}</strong></h1>
+                        </div>
+                        <div class="col-sm-4">
+                            <p>My Videos</p>
+                            <h1 class="display-4"><strong>{{userChannel.videoCount}}</strong></h1>
+                        </div>
+                    </div>
+                    <div class="d-flex p-3">
+                        <div class="col-sm-4">
+                            <button ng-click="showCreateVideo(); $event.preventDefault()" id="btnVtbUploadVideo"
+                                type="button" class="btn btn-primary btn-lg btn-block">Upload
+                                Video</button>
+                            <button ng-click="getCreateChannel()" id="btnVtbEditChannel" type="button"
+                                class="btn btn-primary btn-lg btn-block">Edit
+                                Channel</button>
+                            <a href="/channel-landing?channel=' + {{userChannel.id}}" id="btnVtbViewChannels"
+                                type="button" class="btn btn-primary btn-lg btn-block">View
+                                Channel</a>
+                            <p class="mt-2">or <a data-toggle="modal" data-target="#confirmDeleteChannel"
+                                    id="linkVtbDeactivateChannel">Deactive
+                                    Channel</a></p>
+                        </div>
+
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label id="lblVtbManageChannelPublishSettings" class="mb-3"><strong>LOREM
+                                            IPSUM</strong></label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="ManageChannelPublishSettings"
+                                            id="inputVtbManageChannelPublishSettings1" value="option1" checked>
+                                        <label class="form-check-label" for="inputVtbManageChannelPublishSettings1">
+                                            Lorem Ipsum 1
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="ManageChannelPublishSettings"
+                                            id="inputVtbManageChannelPublishSettings2" value="option2">
+                                        <label class="form-check-label" for="inputVtbManageChannelPublishSettings2">
+                                            Lorem Ipsum 2
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label id="lblVtbManageChannelAllowComments" class="mb-3"><strong>LOREM
+                                            IPSUM</strong></label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="ManageChannelAllowComments"
+                                            id="inputVtbManageChannelAllowComments1" value="option1" checked>
+                                        <label class="form-check-label" for="inputVtbManageChannelAllowComments1">
+                                            Lorem Ipsum 1
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="ManageChannelAllowComments"
+                                            id="inputVtbManageChannelAllowComments2" value="option2">
+                                        <label class="form-check-label" for="inputVtbManageChannelAllowComments2">
+                                            Lorem Ipsum 2
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="vt-no-video-content" id="pillsVtbMyVideos">
+                    <div class="row" ng-if="userVideos == null">
+                        <h4 id="txtVtbDashboardTitle" class="mb-3">MY VIDEOS</h4>
+
+                        <div class="col-md-12">
+                            <button type="submit" id="btnVtbNoVideoUploadVideo" class="btn btn-primary mr-1"><input
+                                    class="custom-file-input vt-custom-file-input "
+                                    ng-click="showCreateVideo(); $event.preventDefault()">UPLOAD
+                                YOUR VTUBE
+                                VIDEO</button>
+                        </div>
+                    </div>
+
+                    <div ng-if="userVideos != null">
+                        <h4 id="txtVtbDashboardTitle">MY VIDEOS</h4>
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td class="row" ng-repeat="vids in userVideos">
+                                        <div class="vt-card-wrapper px-0 mb-2 mx-1">
+                                            <div class="vt-cards-myvideos__duration vt-background--grey-darker row">
+                                                <div class="col p-0">
+                                                    <div class="px-2 py-1 d-flex float-left">
+                                                        <span id="txtVtbVideoDuration"
+                                                            class="pl-1 small">{{vids.Duration}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <picture>
+                                                <source class="vt-card-myvideos--image" srcset="{{vids.image}}">
+                                                <source class="vt-card-myvideos--image"
+                                                    srcset="https://via.placeholder.com/167x100">
+                                                <img class="vt-card-myvideos--image rounded img-fluid"
+                                                    src="https://via.placeholder.com/167x100" alt="Card Placeholder">
+                                            </picture>
+                                        </div>
+                                        <div class="mx-2">
+                                            <h4>{{vids.name}}</h4>
+                                            <p class="mb-1"><span class="text-muted">Uploaded to </span><span
+                                                    id="txtVtbuploadedTo">{{vids.channelName}}</span></p>
+                                            <p class="text-muted"><span
+                                                    id="txtVtbdateUploaded">{{vids.createdOn}}</span>
+                                                <div>
+                                                    <button type="submit" id="btnVtbViewVideo"
+                                                        class="btn btn-primary mr-1 float-left">View Video</button>
+                                                    <button type="button" ng-click="goToEditVideo(vids.id, $event)"
+                                                        id="btnVtbEditVideo"
+                                                        class="btn btn-info mr-1 float-left">Edit</button>
+                                                    <button type="button" data-toggle="modal"
+                                                        data-target="#mdlVtbDeleteVideo"
+                                                        ng-click="deleteVideo(vids.id, $event)"
+                                                        class="btn btn-dark float-left">Delete</button>
+                                                </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="vt-edit-video-content" id="pillsVtbEditVideo">
+                    <h4 id="txtVtbDashboardTitle" class="mb-3">Edit VIDEO
+                    </h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="inputVtbUploadVideoTitle"
+                                    placeholder="Title" input-regex ng-model="videoDetails.name">
+                                <small id="txtVtbUploadVideoTitleHelp" class="form-text text-muted">Video Name.</small>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" id="inputVtbUploadVideoDescription" rows="3"
+                                    placeholder="Description" input-regex
+                                    ng-model="videoDetails.description"></textarea>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="inputVtbUploadVideoTags" placeholder="Tags"
+                                    input-regex ng-model="videoDetails.tags">
+                                <small id="txtVtbUploadVideoTagsHelp" class="form-text text-muted">Tags.</small>
+                            </div>
+                            <!-- ADDED SOMETHING HERE -->
+                            <div class="form-group">
+                                <select class="custom-select my-1 mr-sm-2" id="selectVtbCreateVideoCategory"
+                                    ng-model="videoDetails.categories">
+                                    <option ng-repeat="category in categories| limitTo: (categories.length - 1)"
+                                        value="{{category}}">{{category}}
+                                    </option>
+
+                                </select>
+                                <small id="txtVtbCreateChannelTagsHelp" class="form-text text-muted">Category.</small>
+                            </div>
+                            <div class="form-group">
+                                <select class="custom-select my-1 mr-sm-2" id="selectVtbCreateVideoLevel"
+                                    ng-model="videoDetails.levelid">
+                                    <option value="Advanced">Advanced</option>
+                                    <option value="General">General</option>
+                                    <option value="Beginner">Beginner</option>
+                                    <option value="Intermediate">Intermediate</option>
+                                    <option value="Platinum">Platinum</option>
+                                </select>
+                                <small id="txtVtbCreateChannelTagsHelp" class="form-text text-muted">Level.</small>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label id="lblVtbUploadVideoPublishSettings" class="mb-3"><strong>Publish
+                                            Settings</strong></label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="UploadVideoPublishSettings"
+                                            id="inputVtbUploadVideoPublishSettings1" value="public" checked
+                                            ng-model="videoDetails.access_type">
+                                        <label class="form-check-label" for="inputVtbUploadVideoPublishSettings1">
+                                            Public
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="UploadVideoPublishSettings"
+                                            id="inputVtbUploadVideoPublishSettings2" value="private">
+                                        <label class="form-check-label" for="inputVtbUploadVideoPublishSettings2"
+                                            ng-model="videoDetails.access_type">
+                                            Private
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label id="lblVtbUploadVideoAllowComments" class="mb-3"><strong>Allow
+                                            Comments</strong></label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="UploadVideoAllowComments"
+                                            id="inputVtbUploadVideoAllowComments1" value="1" checked
+                                            ng-model="videoDetails.is_comments_allowed">
+                                        <label class="form-check-label" for="inputVtbUploadVideoAllowComments1">
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="UploadVideoAllowComments"
+                                            id="inputVtbUploadVideoAllowComments2" value="0"
+                                            ng-model="videoDetails.is_comments_allowed">
+                                        <label class="form-check-label" for="inputVtbUploadVideoAllowComments2">
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label id="lblVtbUploadVideoAllowShare" class="mb-3"><strong>Allow
+                                            Share</strong></label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="UploadVideoAllowShare"
+                                            id="inputVtbUploadVideoShareComments1" value="1" checked
+                                            ng-model="videoDetails.is_share_allowed">
+                                        <label class="form-check-label" for="inputVtbUploadVideoShareComments1">
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="UploadVideoAllowShare"
+                                            id="inputVtbUploadVideoShareComments2" value="0"
+                                            ng-model="videoDetails.is_share_allowed">
+                                        <label class="form-check-label" for="inputVtbUploadVideoShareComments2">
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <button type="submit" class="btn btn-primary" ng-click="editVideo($event)"
+                                id="btnVtbUploadVideoSubmit">Submit</button>
+                            <button type="submit" class="btn btn-info" id="btnVtbUploadVideoCancel">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="vt-upload-video-content" id="pillsVtbUploadVideo">
+                    <h4 id="txtVtbDashboardTitle" class="mb-3">UPLOAD VIDEO
+                    </h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label id="lblVtbUploadVideoSelectFile" class="mb-3"><strong>Choose a
+                                        file</strong></label>
+                                <div class="col-md-12 p-0">
+                                    <button id="btnVtbUploadVideoSelectFile"
+                                        class="btn btn-primary mr-1 d-none d-sm-block"><input type="file"
+                                            class="custom-file-input vt-custom-file-input " accept="video/*"
+                                            video-model="myVideo">Select
+                                        File</button>
+                                </div>
+                                <small id="txtVtbUploadVideoSelectFileNote"
+                                    class="form-text text-muted">{{myVideo.name}}</small>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="inputVtbUploadVideoTitle"
+                                    placeholder="Title" input-regex ng-model="videoDetails.name">
+                                <small id="txtVtbUploadVideoTitleHelp" class="form-text text-muted">Video Name.</small>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" id="inputVtbUploadVideoDescription" rows="3"
+                                    placeholder="Description" input-regex
+                                    ng-model="videoDetails.description"></textarea>
+
+                            </div>
+                            <div class="row px-3">
+                                <label id="lblVtbUploadVideoSelectFile" class="mb-3 col-sm-12"><strong>Target
+                                        Market</strong></label>
+                                <div class="col-sm-6">
+                                    <div class="form-check" ng-repeat="country in countryCheck | limitTo : 6">
+                                        <input class="form-check-input" type="checkbox" value="country.name"
+                                            ng-model="country.selected">
+                                        <label class="form-check-label" for="defaultCheck1"> {{country.name}} </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-check">
+                                        <div class="form-check"
+                                            ng-repeat="country in countryCheck | limitTo : (6 - countryCheck.length)">
+                                            <input class="form-check-input" type="checkbox" value="country.name"
+                                                ng-model="country.selected">
+                                            <label class="form-check-label" for="defaultCheck1"> {{country.name}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="inputVtbUploadVideoTags" placeholder="Tags"
+                                    input-regex ng-model="videoDetails.tags">
+                                <small id="txtVtbUploadVideoTagsHelp" class="form-text text-muted">Tags.</small>
+                            </div>
+                            <!-- ADDED SOMETHING HERE -->
+                            <div class="form-group">
+                                <select class="custom-select my-1 mr-sm-2" id="selectVtbCreateVideoCategory"
+                                    ng-model="videoDetails.categories">
+                                    <option ng-repeat="category in categories| limitTo: (categories.length - 1)"
+                                        value="{{category}}">{{category}}
+                                    </option>
+
+                                </select>
+                                <small id="txtVtbCreateChannelTagsHelp" class="form-text text-muted">Category.</small>
+                            </div>
+                            <div class="form-group">
+                                <select class="custom-select my-1 mr-sm-2" id="selectVtbCreateVideoLevel"
+                                    ng-model="videoDetails.levelid">
+                                    <option value="Advanced">Advanced</option>
+                                    <option value="General">General</option>
+                                    <option value="Beginner">Beginner</option>
+                                    <option value="Intermediate">Intermediate</option>
+                                    <option value="Platinum">Platinum</option>
+                                </select>
+                                <small id="txtVtbCreateChannelTagsHelp" class="form-text text-muted">Level.</small>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label id="lblVtbUploadVideoPublishSettings" class="mb-3"><strong>Publish
+                                            Settings</strong></label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="UploadVideoPublishSettings"
+                                            id="inputVtbUploadVideoPublishSettings1" value="public" checked
+                                            ng-model="videoDetails.access_type">
+                                        <label class="form-check-label" for="inputVtbUploadVideoPublishSettings1">
+                                            Public
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="UploadVideoPublishSettings"
+                                            id="inputVtbUploadVideoPublishSettings2" value="private">
+                                        <label class="form-check-label" for="inputVtbUploadVideoPublishSettings2"
+                                            ng-model="videoDetails.access_type">
+                                            Private
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label id="lblVtbUploadVideoAllowComments" class="mb-3"><strong>Allow
+                                            Comments</strong></label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="UploadVideoAllowComments"
+                                            id="inputVtbUploadVideoAllowComments1" value="1" checked
+                                            ng-model="videoDetails.is_comments_allowed">
+                                        <label class="form-check-label" for="inputVtbUploadVideoAllowComments1">
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="UploadVideoAllowComments"
+                                            id="inputVtbUploadVideoAllowComments2" value="0"
+                                            ng-model="videoDetails.is_comments_allowed">
+                                        <label class="form-check-label" for="inputVtbUploadVideoAllowComments2">
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label id="lblVtbUploadVideoAllowShare" class="mb-3"><strong>Allow
+                                            Share</strong></label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="UploadVideoAllowShare"
+                                            id="inputVtbUploadVideoShareComments1" value="1" checked
+                                            ng-model="videoDetails.is_share_allowed">
+                                        <label class="form-check-label" for="inputVtbUploadVideoShareComments1">
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="UploadVideoAllowShare"
+                                            id="inputVtbUploadVideoShareComments2" value="0"
+                                            ng-model="videoDetails.is_share_allowed">
+                                        <label class="form-check-label" for="inputVtbUploadVideoShareComments2">
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label id="lblVtbUploadVideoAllowShare" class="mb-3"><strong>Allow
+                                            Adds</strong></label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="UploadVideoAllowShare"
+                                            id="inputVtbUploadVideoShareComments1" value="1" checked
+                                            ng-model="videoDetails.allow_ads">
+                                        <label class="form-check-label" for="inputVtbUploadVideoShareComments1">
+                                            Yes
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="UploadVideoAllowShare"
+                                            id="inputVtbUploadVideoShareComments2" value="0"
+                                            ng-model="videoDetails.allow_ads">
+                                        <label class="form-check-label" for="inputVtbUploadVideoShareComments2">
+                                            No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-12">
+                            <button type="submit" class="btn btn-primary" ng-click="uploadVideo($event)"
+                                id="btnVtbUploadVideoSubmit">Submit</button>
+                            <button type="submit" class="btn btn-info" id="btnVtbUploadVideoCancel">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="vt-followers-content" id="pillsVtbFollowers">
+                    <h4 id="txtVtbDashboardTitle" class="mb-3">FOLLOWERS</h4>
+                    <div class="row">
+                        <div class="col-sm-6 row">
+                            <table id="tableVtbFollower" class="table table-borderless">
+                                <tbody>
+                                    <tr ng-repeat="followers in followerRequests">
+                                        <td id="txtVtbFollowerPicture1" class="text-right">
+                                            <picture id="txtVtbFollowersPicture1">
+                                                <source srcset="{{followers.image}}">
+                                                <source srcset="https://via.placeholder.com/110">
+                                                <img class="rounded img-fluid rounded-circle"
+                                                    src="https://via.placeholder.com/110" alt="Picture Placeholder">
+                                            </picture>
+                                        </td>
+                                        <td>
+                                            <p id="txtVtbFollowerName1" class="mb-2">
+                                                <strong>{{followers.channelName}}</strong></p>
+                                            <div class="form-group">
+                                                <button type="submit" ng-click="acceptFollower(followers.id, $event)"
+                                                    class="btn btn-primary mb-1"
+                                                    id="btnVtbFollowersSubmit">Accept</button>
+                                                <button type="submit" ng-click="rejectFollower(followers.id, $event)"
+                                                    class="btn btn-info" id="btnVtbFollowersCancel">Reject</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-12 d-flex justify-content-center mt-4">
+                            <button class="btn btn-dark" id="btnVtbFollowersViewMore">View more</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="vt-following-content" id="pillsVtbFollowing">
+                    <h4 id="txtVtbDashboardTitle" class="mb-3">FOLLOWING</h4>
+                    <div class="row">
+                        <div class="col-sm-6 row">
+                            <table id="tableVtbFollower" class="table table-borderless">
+                                <tbody>
+                                    <tr ng-repeat="channels in followedChannels">
+                                        <td id="txtVtbFollowingPicture1" class="text-right">
+                                            <picture id="txtVtbFollowersPicture1">
+                                                <source srcset="{{channels.image}}">
+                                                <source srcset="{{channels.image}}">
+                                                <img class="rounded img-fluid rounded-circle" src="{{channels.image}}"
+                                                    alt="Picture Placeholder">
+                                            </picture>
+                                        </td>
+                                        <td>
+                                            <p id="txtVtbFollowingName1" class="mb-2">
+                                                <strong>{{channels.channelName}}</strong></p>
+                                            <div class="form-group">
+                                                <button type="submit" ng-click="unfollow(channels.id, $event)"
+                                                    class="btn btn-primary mb-1"
+                                                    id="btnVtbFollowingUnfollow">Unfollow</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-12 d-flex justify-content-center mt-4">
+                            <button class="btn btn-dark" id="btnVtbFollowersViewMore">View more</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="vt-points-content" id="pillsVtbPoints">
+                    <h3 id="txtVtbDashboardTitle">POINTS HISTORY</h3>
+                    <form class="form-inline my-2 my-lg-0">
+                        <input id="inputVtbPointsHistorySearch" class="form-control mr-sm-2" type="search"
+                            placeholder="Search" aria-label="Search">
+                    </form>
+                    <!-- Start: Table Display Large Device-->
+                    <div class="d-none d-md-block">
+                        <table id="tableVtbPointsHistory" class="table table-borderless">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ACTIVITY</th>
+                                    <th scope="col">PREVIOUS POINTS</th>
+                                    <th scope="col">POINTS EARNED</th>
+                                    <th scope="col">TOTAL POINTS</th>
+                                    <th scope="col">DATE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td id="txtVtbPointsHistoryMembership1">Lorem Ipsum 1</td>
+                                    <td id="numVtbPointsHistoryPreviousPoints1">30729</td>
+                                    <td id="numVtbPointsHistoryEarnedPoints1">30729</td>
+                                    <td id="numVtbPointsHistoryTotalPoints1">30729</td>
+                                    <td id="numVtbPointsHistoryDate1">00/00/00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="d-flex justify-content-center ">
+                            <button id="btnPointsViewMore" class="btn btn-dark">View
+                                more</button>
+                        </div>
+                    </div>
+                    <!-- End: Table Display Large Device-->
+                    <!-- Start: Table Display Only for Small Device-->
+                    <div class="d-block d-md-none">
+                        <ul class="list-unstyled">
+                            <li>
+                                <p class="mb-0"><strong>ACTIVITY</strong><span
+                                        class="badge badge-primary badge-pill vt-badge--size p-2 float-right">1</span>
+                            </li>
+                            <li>
+                                <p id="txtVtbPointsHistoryMembership1">Lorem Ipsum 1</p>
+                            </li>
+                            <li>
+                                <p class="mb-0"><strong>PREVIOUS POINTS</strong></p>
+                            </li>
+                            <li>
+                                <p id="numVtbPointsHistoryPreviousPoints1">30729</p>
+                            </li>
+                            <li>
+                                <p class="mb-0"><strong>POINTS EARNED</strong></p>
+                            </li>
+                            <li>
+                                <p id="numVtbPointsHistoryEarnedPoints1">30729</p>
+                            </li>
+                            <li>
+                                <p class="mb-0"><strong>TOTAL POINTS</strong></p>
+                            </li>
+                            <li>
+                                <p id="numVtbPointsHistoryTotalPoints1">30729</p>
+                            </li>
+                            <li>
+                                <p class="mb-0"><strong>DATE</strong></p>
+                            </li>
+                            <li>
+                                <p id="numVtbPointsHistoryDate1">00/00/00</p>
+                            </li>
+                        </ul>
+                        <hr>
+                    </div>
+                    <!-- End: Table Display Only for Small Device-->
+                </div>
+                <div class="vt-playlist-content" id="pillsVtbPlaylist">
+                    <h3 id="txtVtbDashboardTitle">MY PLAYLIST</h3>
+                    <div class="row justify-content-center px-2 text-center">
+                        <div class="col-xs-6 col-sm-4 mb-1 px-1" ng-repeat="vid in playlist">
+                            <div class="vt-card-wrapper p-0 mb-2 mx-auto">
+                                <div class="vt-cards__duration vt-background--grey-darker row">
+                                    <div class="col p-0">
+                                        <div class="px-2 py-1 d-flex float-left">
+                                            <span id="txtVtbVideoDuration" class="pl-1 small">{{vid.duration}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="vt-cards__points vt-background--grey-darker row">
+                                    <div class="col p-0">
+                                        <div class="px-2 py-1 d-flex float-left">
+                                            <picture class="d-flex">
+                                                <source srcset="/Resources/vtube/images/vt-points.svg">
+                                                <source srcset="/Resources/vtube/images/vt-points.svg">
+                                                <img src="/Resources/vtube/images/vt-points.svg" alt="Points icon">
+                                            </picture>
+                                            <span id="txtVtbPoints" class="pl-1 small">{{vid.points}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="vt-cards--darker rounded"></div>
+                                <div class="vt-cards__overlay">
+                                    <a id="btnVtbPlayVideo" ng-if="checkVideoPrivacy(vid.videoPrivacy, vid.tags)"
+                                        href="/now-playing?watch={{vid.id}}" type="submit" id="btnVtbPlay"
+                                        class="btn btn-primary  col-sm-12 d-flex mr-1 mb-2 mx-auto">
+                                        <div class="m-auto">
+                                            <picture>
+                                                <source class="vt-cards--playbtn align-self-center"
+                                                    srcset=".//Resources/vtube/images/vt-play.svg">
+                                                <source class="vt-cards--playbtn align-self-center"
+                                                    srcset=".//Resources/vtube/images/vt-play.svg">
+                                                <img class="vt-cards--playbtn align-self-center"
+                                                    src=".//Resources/vtube/images/vt-play.svg" alt="Play icon">
+                                            </picture>
+                                            Play
+                                        </div>
+                                    </a>
+                                    <button id="btnVtbAddToPlaylist" ng-click="removeFromPlaylist(vid.videoId)"
+                                        class="btn btn-dark  col-sm-12 d-flex mx-auto">
+                                        <div class="m-auto">
+                                            Remove
+                                        </div>
+                                    </button>
+                                </div>
+                                <picture class="pr-1">
+                                    <source srcset="{{vid.image}}">
+                                    <source srcset="https://via.placeholder.com/273x185">
+                                    <img class="rounded img-fluid" src="https://via.placeholder.com/273x185"
+                                        alt="Card Placeholder">
+                                </picture>
+                            </div>
+                            <div class="text-center">
+                                <p class="mb-1">
+                                    <a id="btnVtbPlay"
+                                        ng-href="{{checkVideoPrivacy(vid.videoPrivacy, vid.tags) ? '/now-playing?watch=' + vid.id : $event.preventDefault()}}">
+                                        <picture ng-if="vid.videoPrivacy == 'private'">
+                                            <source srcset="/Resources/vtube/images/vt-premium-lock.svg">
+                                            </source>
+                                            <source srcset="/Resources/vtube/images/vt-premium-lock.svg">
+                                            </source><img class="vt-cards__locked-icon mr-2 align-text-bottom"
+                                                src="/Resources/vtube/images/vt-premium-lock.svg"
+                                                alt="premium lock icon" />
+                                        </picture>
+                                        {{vid.title}}
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="userInbox.length == 0" class="vt-no-inbox-content" id="pillsVtbInbox">
+                    <h3 id="txtVtbDashboardTitleNoMail">No Mail</h3>
+                </div>
+                <div ng-if="userInbox.length > 0" class="vt-inbox-content" id="pillsVtbInbox">
+                    <h3 id="txtVtbDashboardTitle">Mails</h3>
+                    <section class="content inbox">
+                        <div class="container-fluid">
+                            <div class="my-3 rounded box-shadow">
+                                <!-- <h6 class="border-bottom border-gray pb-2 mb-0">Suggestions</h6> -->
+                                <div class="media text-muted pt-3" ng-repeat="messages in userInbox"
+                                    ng-click="showInboxMessage(messages)">
+                                    <img data-src="holder.js/32x32?theme=thumb&amp;bg=007bff&amp;fg=007bff&amp;size=1"
+                                        alt="32x32" class="rounded-circle mr-2 rounded"
+                                        src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2232%22%20height%3D%2232%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_17039312c79%20text%20%7B%20fill%3A%23007bff%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A2pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_17039312c79%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20fill%3D%22%23007bff%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2212.2890625%22%20y%3D%2216.9%22%3E32x32%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+                                        data-holder-rendered="true" style="width: 32px; height: 32px;">
+                                    <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                        <div class="d-flex justify-content-between align-items-center w-100">
+                                            <strong data-toggle="modal" data-target="#inboxModal"
+                                                class="text-grey">{{messages.Sender}}</strong>
+                                            <span>{{messages.date}}</span>
+                                        </div>
+                                        <span data-toggle="modal" data-target="#inboxModal" class="d-block"><strong
+                                                class="text-grey">{{messages.Subject}}
+                                    </div>
+                                </div>
+                                <small class="d-block text-right mt-3">
+                                    <!-- <a href="#">All suggestions</a> -->
+                                </small>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- <table class="table">
+                    <tbody>
+                        <tr>
+                        <th scope="row">The V Family</th>
+                        <td>1 Month Free Trial</td>
+                        <td>- Lorem Ipsum is simply dummy text of the printing and typesetting industry..</td>
+                        <td>Nov. 25, 2020</td>
+                        </tr>
+                        <tr>
+                        <th scope="row">2</th>
+                        <td>1 Month Free Trial</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                        </tr>
+                        <tr>
+                        <th scope="row">3</th>
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                        <td>@twitter</td>
+                        </tr>
+                    </tbody>
+                    </table> -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal fade" id="confirmDeleteChannel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-0">
+                    <h3 class="text-center">Are you sure you want to delete your Channel?</h3>
+                </div>
+                <div class="modal-footer p-0 mt-3">
+                    <button type="button" class="vt-playlistmodal--btn btn w-100 m-0 btn btn-primary"
+                        data-dismiss="modal" data-toggle="modal" data-target="#strongConfirmDeleteChannel">Delete
+                        Channel</button>
+                </div>
+                <div class="modal-footer p-0 mt-3">
+                    <button type="button" class="vt-playlistmodal--btn btn w-100 m-0 btn btn-primary"
+                        data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="strongConfirmDeleteChannel" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-0">
+                    <h3 class="text-center">The Channel along with its videos will be deleted.</h3>
+                </div>
+                <div class="modal-footer p-0 mt-3">
+                    <button type="button" class="vt-playlistmodal--btn btn w-100 m-0 btn btn-primary"
+                        data-dismiss="modal" ng-click="deleteChannel($event)">Delete Channel</button>
+                </div>
+                <div class="modal-footer p-0 mt-3">
+                    <button type="button" class="vt-playlistmodal--btn btn w-100 m-0 btn btn-primary"
+                        data-dismiss="modal">cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End: Dashboard Log in Section 2-->
+
+<!--Start: Footer Log in Section 2-->

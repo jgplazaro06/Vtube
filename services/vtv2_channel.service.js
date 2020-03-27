@@ -105,10 +105,6 @@ app.factory('srvc_channel', function ($localStorage, $sessionStorage, $http, API
             headers: { 'Authorization': 'Bearer ' + $sessionStorage.USER_TOKEN }
         }).then(function (result) {
             $localStorage.FOLLOWED_CHANNELS = result.data;
-            $localStorage.FOLLOWED_CHANNELS.forEach(element => {
-                element.image = 'http://site.the-v.net' + element.image
-                element.image = element.image.replace('&amp;', '&')
-            })
         }, function (error) {
             console.log(error)
         })
