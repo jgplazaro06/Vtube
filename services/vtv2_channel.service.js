@@ -99,7 +99,7 @@ app.factory('srvc_channel', function ($localStorage, $sessionStorage, $http, API
     }
 
     function getFollowing() {
-        requestString = [API.THEV, '/dashboard/followchannel/list', $sessionStorage.AUD].filter(Boolean).join('/')
+        requestString = [API.THEV, 'dashboard/followchannel/list', $sessionStorage.AUD].filter(Boolean).join('/')
 
         $http.get(requestString, {
             headers: { 'Authorization': 'Bearer ' + $sessionStorage.USER_TOKEN }

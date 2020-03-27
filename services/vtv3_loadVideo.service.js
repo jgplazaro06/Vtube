@@ -93,6 +93,18 @@ app.factory('srvc_loadVid', function ($localStorage, $sessionStorage, $http, API
             case 'Viewed':
                 return 'view';
                 break;
+            case 'Hot':
+                return 'hot';
+            case 'Rate':
+                return 'rate';
+            case 'Premium_Rec':
+                return 'premium/recommend'
+            case 'Premium_View':
+                return 'premium/view'
+            case 'Premium_Hot':
+                return 'premium/hot'
+            case 'Premium_Rate':
+                return 'premium/rate'
 
         }
     }
